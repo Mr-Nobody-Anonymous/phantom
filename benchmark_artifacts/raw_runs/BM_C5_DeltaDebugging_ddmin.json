@@ -1,0 +1,54 @@
+{
+  "case_id": "BM_C5",
+  "case_name": "KafkaConsumerOffsetRewind",
+  "category": "Benchmark C",
+  "algorithm": "DeltaDebugging_ddmin",
+  "input_trace_size": 8,
+  "input_trace_hash": "",
+  "failure_signature": "KafkaOffsetRewindDuplicateAnomaly",
+  "executions_count": 5,
+  "minimized_event_count": 2,
+  "reduction_ratio": 0.75,
+  "reproduction_rate": 1.0,
+  "confidence_score": 0.0,
+  "minimality_level": "1-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.002156200003810227,
+  "retained_event_ids": [
+    "assert_exactly_once",
+    "consumer_re_execute"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 3,
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 4,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 5,
+      "size": 2,
+      "verdict": "REPRODUCED"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086054.2044108
+  }
+}

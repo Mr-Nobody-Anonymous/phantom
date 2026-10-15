@@ -18,6 +18,11 @@ class EventType(str, Enum):
     FAULT_DROP = "FAULT_DROP"
     FAULT_CRASH = "FAULT_CRASH"
     FAULT_RESTART = "FAULT_RESTART"
+    FAULT_PARTITION = "FAULT_PARTITION"
+    FAULT_HEAL = "FAULT_HEAL"
+    SYNC = "SYNC"
+    TRANSACTION_COMMIT = "TRANSACTION_COMMIT"
+    TRANSACTION_ABORT = "TRANSACTION_ABORT"
     ASSERTION = "ASSERTION"
     INTERNAL = "INTERNAL"
 
@@ -102,6 +107,8 @@ class Event:
             EventType.FAULT_DROP,
             EventType.FAULT_CRASH,
             EventType.FAULT_RESTART,
+            EventType.FAULT_PARTITION,
+            EventType.FAULT_HEAL,
         }
 
     def is_message(self) -> bool:

@@ -1,0 +1,170 @@
+{
+  "case_id": "GT-03",
+  "case_name": "Async Replication Failover Lost Acknowledged Write",
+  "category": "Ground Truth",
+  "algorithm": "DeltaDebugging_ddmin",
+  "input_trace_size": 7,
+  "input_trace_hash": "",
+  "failure_signature": "AsyncReplicationLostAcknowledgedWrite",
+  "executions_count": 28,
+  "minimized_event_count": 3,
+  "reduction_ratio": 0.5714285714285714,
+  "reproduction_rate": 1.0,
+  "confidence_score": 0.0,
+  "minimality_level": "1-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.005413200007751584,
+  "retained_event_ids": [
+    "assert_lost_write",
+    "client_write",
+    "promote_replica"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 3,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 4,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 5,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 6,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 7,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 8,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 9,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 10,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 11,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 12,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 13,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 14,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 15,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 16,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 17,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 18,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 19,
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 20,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 21,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 22,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 23,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 24,
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 25,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 26,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 27,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 28,
+      "size": 2,
+      "verdict": "PASS"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086055.316422
+  }
+}

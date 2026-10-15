@@ -1,0 +1,105 @@
+{
+  "case_id": "GT-03",
+  "case_name": "Async Replication Failover Lost Acknowledged Write",
+  "category": "Ground Truth",
+  "algorithm": "PHANTOM_CausalMinimizer",
+  "input_trace_size": 7,
+  "input_trace_hash": "0e534bb679e709b9229c08c529d945964f60878e86123e29979558b2e845bcc7",
+  "failure_signature": "AsyncReplicationLostAcknowledgedWrite",
+  "executions_count": 11,
+  "minimized_event_count": 3,
+  "reduction_ratio": 0.5714285714285714,
+  "reproduction_rate": 1.0,
+  "confidence_score": 1.0,
+  "minimality_level": "GLOBALLY-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.00634570000693202,
+  "retained_event_ids": [
+    "assert_lost_write",
+    "client_write",
+    "promote_replica"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "phase": "initial_validation",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "phase": "causal_slicing",
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 3,
+      "phase": "fault_necessity_test",
+      "tested_fault": "fault_drop_repl",
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 4,
+      "phase": "fault_necessity_test",
+      "tested_fault": "fault_crash_master",
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 5,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 6,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 7,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 8,
+      "phase": "necessity_ledger",
+      "tested_event": "client_write",
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 9,
+      "phase": "necessity_ledger",
+      "tested_event": "master_data",
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 10,
+      "phase": "necessity_ledger",
+      "tested_event": "promote_replica",
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 11,
+      "phase": "necessity_ledger",
+      "tested_event": "fault_crash_master",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086055.1046195
+  }
+}

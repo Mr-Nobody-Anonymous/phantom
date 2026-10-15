@@ -1,0 +1,135 @@
+{
+  "case_id": "BM_C3",
+  "case_name": "SagaCompensationRace",
+  "category": "Benchmark C",
+  "algorithm": "DeltaDebugging_ddmin",
+  "input_trace_size": 10,
+  "input_trace_hash": "",
+  "failure_signature": "SagaCompensationReorderGhostBilling",
+  "executions_count": 21,
+  "minimized_event_count": 3,
+  "reduction_ratio": 0.7,
+  "reproduction_rate": 1.0,
+  "confidence_score": 0.0,
+  "minimality_level": "1-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.003033700049854815,
+  "retained_event_ids": [
+    "assert_no_ghost_charge",
+    "charge_customer",
+    "reject_cancel"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "size": 10,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 3,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 4,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 5,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 6,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 7,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 8,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 9,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 10,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 11,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 12,
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 13,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 14,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 15,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 16,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 17,
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 18,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 19,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 20,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 21,
+      "size": 2,
+      "verdict": "PASS"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086053.421622
+  }
+}

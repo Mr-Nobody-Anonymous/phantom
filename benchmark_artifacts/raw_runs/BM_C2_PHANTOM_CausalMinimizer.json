@@ -1,0 +1,98 @@
+{
+  "case_id": "BM_C2",
+  "case_name": "DistributedLeaseRenewalRace",
+  "category": "Benchmark C",
+  "algorithm": "PHANTOM_CausalMinimizer",
+  "input_trace_size": 9,
+  "input_trace_hash": "aaa89a798506d42a080ace8cfa107190034ccb95727a96f2ebbdedeae24aeb1a",
+  "failure_signature": "StaleLeaderLeaseOverwrite",
+  "executions_count": 10,
+  "minimized_event_count": 3,
+  "reduction_ratio": 0.6666666666666667,
+  "reproduction_rate": 1.0,
+  "confidence_score": 1.0,
+  "minimality_level": "GLOBALLY-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.007089800084941089,
+  "retained_event_ids": [
+    "assert_linearizability",
+    "n1_stale_write",
+    "n2_claim_lease"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "phase": "initial_validation",
+      "size": 9,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "phase": "causal_slicing",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 3,
+      "phase": "fault_necessity_test",
+      "tested_fault": "fault_gc_pause_n1",
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 4,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 5,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 6,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 7,
+      "phase": "necessity_ledger",
+      "tested_event": "n2_claim_lease",
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 8,
+      "phase": "necessity_ledger",
+      "tested_event": "n1_stale_write",
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 9,
+      "phase": "necessity_ledger",
+      "tested_event": "n2_lease_timeout",
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 10,
+      "phase": "necessity_ledger",
+      "tested_event": "n2_write_data",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086052.5914571
+  }
+}

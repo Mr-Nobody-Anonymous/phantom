@@ -1,0 +1,91 @@
+{
+  "case_id": "GT-01",
+  "case_name": "Raft Split-Brain Stale Leader Commit",
+  "category": "Ground Truth",
+  "algorithm": "PHANTOM_CausalMinimizer",
+  "input_trace_size": 9,
+  "input_trace_hash": "4c7ab3b6ef45e30805053bcb7b50ae2153efe5c11a10677adf53d1ff3f610b10",
+  "failure_signature": "RaftSplitBrainStaleLeaderCommit",
+  "executions_count": 9,
+  "minimized_event_count": 3,
+  "reduction_ratio": 0.6666666666666667,
+  "reproduction_rate": 1.0,
+  "confidence_score": 1.0,
+  "minimality_level": "GLOBALLY-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.00590119999833405,
+  "retained_event_ids": [
+    "assert_split_brain",
+    "new_write",
+    "stale_write"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "phase": "initial_validation",
+      "size": 9,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "phase": "causal_slicing",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 3,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 4,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 5,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 6,
+      "phase": "necessity_ledger",
+      "tested_event": "new_write",
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 7,
+      "phase": "necessity_ledger",
+      "tested_event": "init_leader",
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 8,
+      "phase": "necessity_ledger",
+      "tested_event": "stale_write",
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 9,
+      "phase": "necessity_ledger",
+      "tested_event": "init_term",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086054.2837288
+  }
+}

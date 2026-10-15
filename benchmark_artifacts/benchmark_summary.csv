@@ -1,69 +1,89 @@
-case_id,category,case_name,algorithm,orig_events,min_events,reduction_ratio,reduction_pct,executions,reproduced,failure_preserved,stability,confidence,time_sec
-BM_A1,Benchmark A,DuplicateOrderProcessing,PHANTOM_CausalMinimizer,12,3,0.75,75.0,12,True,True,1.0,1.0,0.0012200999772176147
-BM_A1,Benchmark A,DuplicateOrderProcessing,PHANTOM_FeedbackGuidedSearch,12,3,0.75,75.0,147,True,True,1.0,1.0,0.13671550003346056
-BM_A1,Benchmark A,DuplicateOrderProcessing,DeltaDebugging_ddmin,12,3,0.75,75.0,13,True,True,1.0,0.0,0.00035420001950114965
-BM_A1,Benchmark A,DuplicateOrderProcessing,RandomSearch,12,5,0.5833333333333333,58.33,150,True,True,1.0,0.0,0.007438300061039627
-BM_A2,Benchmark A,DoubleSpendRace,PHANTOM_CausalMinimizer,10,2,0.8,80.0,5,True,True,1.0,1.0,0.0005178001010790467
-BM_A2,Benchmark A,DoubleSpendRace,PHANTOM_FeedbackGuidedSearch,10,2,0.8,80.0,22,True,True,1.0,1.0,0.002955799922347069
-BM_A2,Benchmark A,DoubleSpendRace,DeltaDebugging_ddmin,10,2,0.8,80.0,6,True,True,1.0,0.0,0.00023210002109408379
-BM_A2,Benchmark A,DoubleSpendRace,RandomSearch,10,2,0.8,80.0,150,True,True,1.0,0.0,0.006145199993625283
-BM_A3,Benchmark A,StaleCacheInconsistency,PHANTOM_CausalMinimizer,8,2,0.75,75.0,6,True,True,1.0,1.0,0.0005054000066593289
-BM_A3,Benchmark A,StaleCacheInconsistency,PHANTOM_FeedbackGuidedSearch,8,2,0.75,75.0,147,True,True,1.0,1.0,0.03289609996136278
-BM_A3,Benchmark A,StaleCacheInconsistency,DeltaDebugging_ddmin,8,2,0.75,75.0,21,True,True,1.0,0.0,0.0004918000195175409
-BM_A3,Benchmark A,StaleCacheInconsistency,RandomSearch,8,2,0.75,75.0,150,True,True,1.0,0.0,0.005544399959035218
-BM_A4,Benchmark A,LostUpdateCounterAnomaly,PHANTOM_CausalMinimizer,8,3,0.625,62.5,8,True,True,1.0,1.0,0.0009686000412330031
-BM_A4,Benchmark A,LostUpdateCounterAnomaly,PHANTOM_FeedbackGuidedSearch,8,3,0.625,62.5,146,True,True,1.0,1.0,0.04002570000011474
-BM_A4,Benchmark A,LostUpdateCounterAnomaly,DeltaDebugging_ddmin,8,3,0.625,62.5,8,True,True,1.0,0.0,0.0002142000012099743
-BM_A4,Benchmark A,LostUpdateCounterAnomaly,RandomSearch,8,4,0.5,50.0,150,True,True,1.0,0.0,0.0057413000613451
-BM_A5,Benchmark A,DeadlockCircularWaitAnomaly,PHANTOM_CausalMinimizer,8,5,0.375,37.5,14,True,True,1.0,1.0,0.0009184000082314014
-BM_A5,Benchmark A,DeadlockCircularWaitAnomaly,PHANTOM_FeedbackGuidedSearch,8,5,0.375,37.5,147,True,True,1.0,1.0,0.08384730003308505
-BM_A5,Benchmark A,DeadlockCircularWaitAnomaly,DeltaDebugging_ddmin,8,5,0.375,37.5,42,True,True,1.0,0.0,0.0007906000828370452
-BM_A5,Benchmark A,DeadlockCircularWaitAnomaly,RandomSearch,8,5,0.375,37.5,150,True,True,1.0,0.0,0.0045238001039251685
-BM_A6,Benchmark A,BalanceConservationAnomaly,PHANTOM_CausalMinimizer,7,2,0.7142857142857143,71.43,6,True,True,1.0,1.0,0.000444200006313622
-BM_A6,Benchmark A,BalanceConservationAnomaly,PHANTOM_FeedbackGuidedSearch,7,2,0.7142857142857143,71.43,22,True,True,1.0,1.0,0.0035046000266447663
-BM_A6,Benchmark A,BalanceConservationAnomaly,DeltaDebugging_ddmin,7,2,0.7142857142857143,71.43,4,True,True,1.0,0.0,8.87999776750803e-05
-BM_A6,Benchmark A,BalanceConservationAnomaly,RandomSearch,7,2,0.7142857142857143,71.43,150,True,True,1.0,0.0,0.003797799930907786
-BM_B1,Benchmark B,DelayedRetryStorm,PHANTOM_CausalMinimizer,12,2,0.8333333333333334,83.33,10,True,True,1.0,1.0,0.0005766999674960971
-BM_B1,Benchmark B,DelayedRetryStorm,PHANTOM_FeedbackGuidedSearch,12,2,0.8333333333333334,83.33,144,True,True,1.0,1.0,0.10725100000854582
-BM_B1,Benchmark B,DelayedRetryStorm,DeltaDebugging_ddmin,12,2,0.8333333333333334,83.33,7,True,True,1.0,0.0,0.00025129993446171284
-BM_B1,Benchmark B,DelayedRetryStorm,RandomSearch,12,3,0.75,75.0,150,True,True,1.0,0.0,0.005790699971839786
-BM_B2,Benchmark B,SplitBrainDualLeader,PHANTOM_CausalMinimizer,10,4,0.6,60.0,14,True,True,1.0,1.0,0.0006889000069350004
-BM_B2,Benchmark B,SplitBrainDualLeader,PHANTOM_FeedbackGuidedSearch,10,4,0.6,60.0,142,True,True,1.0,1.0,0.0465715000173077
-BM_B2,Benchmark B,SplitBrainDualLeader,DeltaDebugging_ddmin,10,4,0.6,60.0,56,True,True,1.0,0.0,0.0012538000009953976
-BM_B2,Benchmark B,SplitBrainDualLeader,RandomSearch,10,5,0.5,50.0,150,True,True,1.0,0.0,0.006491699954494834
-BM_B3,Benchmark B,DroppedAckStateDesync,PHANTOM_CausalMinimizer,9,3,0.6666666666666667,66.67,8,True,True,1.0,1.0,0.0007289999630302191
-BM_B3,Benchmark B,DroppedAckStateDesync,PHANTOM_FeedbackGuidedSearch,9,3,0.6666666666666667,66.67,146,True,True,1.0,1.0,0.0617753000697121
-BM_B3,Benchmark B,DroppedAckStateDesync,DeltaDebugging_ddmin,9,3,0.6666666666666667,66.67,33,True,True,1.0,0.0,0.0007064999081194401
-BM_B3,Benchmark B,DroppedAckStateDesync,RandomSearch,9,3,0.6666666666666667,66.67,150,True,True,1.0,0.0,0.0069821999641135335
-BM_B4,Benchmark B,CrashRestartDurabilityLoss,PHANTOM_CausalMinimizer,6,4,0.33333333333333337,33.33,8,True,True,1.0,1.0,0.0008471000473946333
-BM_B4,Benchmark B,CrashRestartDurabilityLoss,PHANTOM_FeedbackGuidedSearch,6,4,0.33333333333333337,33.33,147,True,True,1.0,1.0,0.07332550000865012
-BM_B4,Benchmark B,CrashRestartDurabilityLoss,DeltaDebugging_ddmin,6,4,0.33333333333333337,33.33,15,True,True,1.0,0.0,0.0005079999100416899
-BM_B4,Benchmark B,CrashRestartDurabilityLoss,RandomSearch,6,4,0.33333333333333337,33.33,150,True,True,1.0,0.0,0.006620300002396107
-BM_B5,Benchmark B,PartitionHealingDesyncAnomaly,PHANTOM_CausalMinimizer,7,4,0.4285714285714286,42.86,12,True,True,1.0,1.0,0.0012277999194338918
-BM_B5,Benchmark B,PartitionHealingDesyncAnomaly,PHANTOM_FeedbackGuidedSearch,7,4,0.4285714285714286,42.86,144,True,True,1.0,1.0,0.0469565000385046
-BM_B5,Benchmark B,PartitionHealingDesyncAnomaly,DeltaDebugging_ddmin,7,4,0.4285714285714286,42.86,26,True,True,1.0,0.0,0.0007953000022098422
-BM_B5,Benchmark B,PartitionHealingDesyncAnomaly,RandomSearch,7,4,0.4285714285714286,42.86,150,True,True,1.0,0.0,0.006201000069268048
-BM_B6,Benchmark B,AsymmetricPartitionFailoverAnomaly,PHANTOM_CausalMinimizer,9,4,0.5555555555555556,55.56,16,True,True,1.0,1.0,0.0011928000021725893
-BM_B6,Benchmark B,AsymmetricPartitionFailoverAnomaly,PHANTOM_FeedbackGuidedSearch,9,4,0.5555555555555556,55.56,145,True,True,1.0,1.0,0.10308020003139973
-BM_B6,Benchmark B,AsymmetricPartitionFailoverAnomaly,DeltaDebugging_ddmin,9,4,0.5555555555555556,55.56,19,True,True,1.0,0.0,0.000421399949118495
-BM_B6,Benchmark B,AsymmetricPartitionFailoverAnomaly,RandomSearch,9,5,0.4444444444444444,44.44,150,True,True,1.0,0.0,0.0058382999850437045
-BM_C1,Benchmark C,TwoPhaseCommitTimeoutDesync,PHANTOM_CausalMinimizer,17,3,0.8235294117647058,82.35,17,True,True,1.0,1.0,0.0013488000258803368
-BM_C1,Benchmark C,TwoPhaseCommitTimeoutDesync,PHANTOM_FeedbackGuidedSearch,17,3,0.8235294117647058,82.35,144,True,True,1.0,1.0,0.16672039998229593
-BM_C1,Benchmark C,TwoPhaseCommitTimeoutDesync,DeltaDebugging_ddmin,17,3,0.8235294117647058,82.35,25,True,True,1.0,0.0,0.0006529000820592046
-BM_C1,Benchmark C,TwoPhaseCommitTimeoutDesync,RandomSearch,17,4,0.7647058823529411,76.47,150,True,True,1.0,0.0,0.008710099966265261
-BM_C2,Benchmark C,DistributedLeaseRenewalRace,PHANTOM_CausalMinimizer,9,3,0.6666666666666667,66.67,9,True,True,1.0,1.0,0.0009733999613672495
-BM_C2,Benchmark C,DistributedLeaseRenewalRace,PHANTOM_FeedbackGuidedSearch,9,3,0.6666666666666667,66.67,145,True,True,1.0,1.0,0.06424449989572167
-BM_C2,Benchmark C,DistributedLeaseRenewalRace,DeltaDebugging_ddmin,9,3,0.6666666666666667,66.67,21,True,True,1.0,0.0,0.00038139999378472567
-BM_C2,Benchmark C,DistributedLeaseRenewalRace,RandomSearch,9,4,0.5555555555555556,55.56,150,True,True,1.0,0.0,0.005379099980928004
-BM_C3,Benchmark C,SagaCompensationRace,PHANTOM_CausalMinimizer,10,3,0.7,70.0,9,True,True,1.0,1.0,0.0010757999261841178
-BM_C3,Benchmark C,SagaCompensationRace,PHANTOM_FeedbackGuidedSearch,10,3,0.7,70.0,146,True,True,1.0,1.0,0.1158021999290213
-BM_C3,Benchmark C,SagaCompensationRace,DeltaDebugging_ddmin,10,3,0.7,70.0,21,True,True,1.0,0.0,0.0006535999709740281
-BM_C3,Benchmark C,SagaCompensationRace,RandomSearch,10,3,0.7,70.0,150,True,True,1.0,0.0,0.008959600003436208
-BM_C4,Benchmark C,RaftLogTruncationDivergence,PHANTOM_CausalMinimizer,8,4,0.5,50.0,13,True,True,1.0,1.0,0.001057300018146634
-BM_C4,Benchmark C,RaftLogTruncationDivergence,PHANTOM_FeedbackGuidedSearch,8,4,0.5,50.0,144,True,True,1.0,1.0,0.058264699997380376
-BM_C4,Benchmark C,RaftLogTruncationDivergence,DeltaDebugging_ddmin,8,4,0.5,50.0,32,True,True,1.0,0.0,0.0007063000230118632
-BM_C4,Benchmark C,RaftLogTruncationDivergence,RandomSearch,8,5,0.375,37.5,150,True,True,1.0,0.0,0.0056050000712275505
-BM_C5,Benchmark C,KafkaConsumerOffsetRewind,PHANTOM_CausalMinimizer,8,2,0.75,75.0,8,True,True,1.0,1.0,0.0009102999465540051
-BM_C5,Benchmark C,KafkaConsumerOffsetRewind,PHANTOM_FeedbackGuidedSearch,8,2,0.75,75.0,147,True,True,1.0,1.0,0.09379300009459257
-BM_C5,Benchmark C,KafkaConsumerOffsetRewind,DeltaDebugging_ddmin,8,2,0.75,75.0,5,True,True,1.0,0.0,0.0001439000479876995
-BM_C5,Benchmark C,KafkaConsumerOffsetRewind,RandomSearch,8,2,0.75,75.0,150,True,True,1.0,0.0,0.005438300082460046
+case_id,category,case_name,algorithm,orig_events,min_events,reduction_ratio,reduction_pct,executions,reproduced,failure_preserved,stability,confidence,minimality_level,time_sec
+BM_A1,Benchmark A,DuplicateOrderProcessing,PHANTOM_CausalMinimizer,12,3,0.75,75.0,12,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.008142099948599935
+BM_A1,Benchmark A,DuplicateOrderProcessing,PHANTOM_FeedbackGuidedSearch,12,3,0.75,75.0,147,True,True,1.0,1.0,1-MINIMAL,0.5119306000415236
+BM_A1,Benchmark A,DuplicateOrderProcessing,DeltaDebugging_ddmin,12,3,0.75,75.0,13,True,True,1.0,0.0,1-MINIMAL,0.00208320003002882
+BM_A1,Benchmark A,DuplicateOrderProcessing,RandomSearch,12,5,0.5833333333333333,58.33,150,True,True,1.0,0.0,1-MINIMAL,0.039107799995690584
+BM_A2,Benchmark A,DoubleSpendRace,PHANTOM_CausalMinimizer,10,2,0.8,80.0,5,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.005242899991571903
+BM_A2,Benchmark A,DoubleSpendRace,PHANTOM_FeedbackGuidedSearch,10,2,0.8,80.0,22,True,True,1.0,1.0,1-MINIMAL,0.009543400024995208
+BM_A2,Benchmark A,DoubleSpendRace,DeltaDebugging_ddmin,10,2,0.8,80.0,6,True,True,1.0,0.0,1-MINIMAL,0.0012888999190181494
+BM_A2,Benchmark A,DoubleSpendRace,RandomSearch,10,2,0.8,80.0,150,True,True,1.0,0.0,1-MINIMAL,0.03645230003166944
+BM_A3,Benchmark A,StaleCacheInconsistency,PHANTOM_CausalMinimizer,8,2,0.75,75.0,6,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.0023098000092431903
+BM_A3,Benchmark A,StaleCacheInconsistency,PHANTOM_FeedbackGuidedSearch,8,2,0.75,75.0,147,True,True,1.0,1.0,1-MINIMAL,0.16178389999549836
+BM_A3,Benchmark A,StaleCacheInconsistency,DeltaDebugging_ddmin,8,2,0.75,75.0,21,True,True,1.0,0.0,1-MINIMAL,0.005751900025643408
+BM_A3,Benchmark A,StaleCacheInconsistency,RandomSearch,8,2,0.75,75.0,150,True,True,1.0,0.0,1-MINIMAL,0.03582650003954768
+BM_A4,Benchmark A,LostUpdateCounterAnomaly,PHANTOM_CausalMinimizer,8,3,0.625,62.5,8,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.003697299980558455
+BM_A4,Benchmark A,LostUpdateCounterAnomaly,PHANTOM_FeedbackGuidedSearch,8,3,0.625,62.5,146,True,True,1.0,1.0,1-MINIMAL,0.1520926000084728
+BM_A4,Benchmark A,LostUpdateCounterAnomaly,DeltaDebugging_ddmin,8,3,0.625,62.5,8,True,True,1.0,0.0,1-MINIMAL,0.001599599956534803
+BM_A4,Benchmark A,LostUpdateCounterAnomaly,RandomSearch,8,4,0.5,50.0,150,True,True,1.0,0.0,1-MINIMAL,0.03686850005760789
+BM_A5,Benchmark A,DeadlockCircularWaitAnomaly,PHANTOM_CausalMinimizer,8,5,0.375,37.5,24,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.004876699997112155
+BM_A5,Benchmark A,DeadlockCircularWaitAnomaly,PHANTOM_FeedbackGuidedSearch,8,5,0.375,37.5,147,True,True,1.0,1.0,1-MINIMAL,0.35648979991674423
+BM_A5,Benchmark A,DeadlockCircularWaitAnomaly,DeltaDebugging_ddmin,8,5,0.375,37.5,42,True,True,1.0,0.0,1-MINIMAL,0.009400100097991526
+BM_A5,Benchmark A,DeadlockCircularWaitAnomaly,RandomSearch,8,5,0.375,37.5,150,True,True,1.0,0.0,1-MINIMAL,0.04218270001001656
+BM_A6,Benchmark A,BalanceConservationAnomaly,PHANTOM_CausalMinimizer,7,2,0.7142857142857143,71.43,6,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.006017099949531257
+BM_A6,Benchmark A,BalanceConservationAnomaly,PHANTOM_FeedbackGuidedSearch,7,2,0.7142857142857143,71.43,22,True,True,1.0,1.0,1-MINIMAL,0.015130399959161878
+BM_A6,Benchmark A,BalanceConservationAnomaly,DeltaDebugging_ddmin,7,2,0.7142857142857143,71.43,4,True,True,1.0,0.0,1-MINIMAL,0.0016026999801397324
+BM_A6,Benchmark A,BalanceConservationAnomaly,RandomSearch,7,2,0.7142857142857143,71.43,150,True,True,1.0,0.0,1-MINIMAL,0.035973999998532236
+BM_B1,Benchmark B,DelayedRetryStorm,PHANTOM_CausalMinimizer,12,2,0.8333333333333334,83.33,10,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.007030499982647598
+BM_B1,Benchmark B,DelayedRetryStorm,PHANTOM_FeedbackGuidedSearch,12,2,0.8333333333333334,83.33,144,True,True,1.0,1.0,1-MINIMAL,0.5026078999508172
+BM_B1,Benchmark B,DelayedRetryStorm,DeltaDebugging_ddmin,12,2,0.8333333333333334,83.33,7,True,True,1.0,0.0,1-MINIMAL,0.00212190009187907
+BM_B1,Benchmark B,DelayedRetryStorm,RandomSearch,12,3,0.75,75.0,150,True,True,1.0,0.0,1-MINIMAL,0.03325460001360625
+BM_B2,Benchmark B,SplitBrainDualLeader,PHANTOM_CausalMinimizer,10,4,0.6,60.0,19,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.004191900021396577
+BM_B2,Benchmark B,SplitBrainDualLeader,PHANTOM_FeedbackGuidedSearch,10,4,0.6,60.0,142,True,True,1.0,1.0,1-MINIMAL,0.21184749994426966
+BM_B2,Benchmark B,SplitBrainDualLeader,DeltaDebugging_ddmin,10,4,0.6,60.0,56,True,True,1.0,0.0,1-MINIMAL,0.012717699981294572
+BM_B2,Benchmark B,SplitBrainDualLeader,RandomSearch,10,5,0.5,50.0,150,True,True,1.0,0.0,1-MINIMAL,0.04383790004067123
+BM_B3,Benchmark B,DroppedAckStateDesync,PHANTOM_CausalMinimizer,9,3,0.6666666666666667,66.67,9,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.005144599941559136
+BM_B3,Benchmark B,DroppedAckStateDesync,PHANTOM_FeedbackGuidedSearch,9,3,0.6666666666666667,66.67,146,True,True,1.0,1.0,1-MINIMAL,0.22317090001888573
+BM_B3,Benchmark B,DroppedAckStateDesync,DeltaDebugging_ddmin,9,3,0.6666666666666667,66.67,33,True,True,1.0,0.0,1-MINIMAL,0.008257200010120869
+BM_B3,Benchmark B,DroppedAckStateDesync,RandomSearch,9,3,0.6666666666666667,66.67,150,True,True,1.0,0.0,1-MINIMAL,0.029774499940685928
+BM_B4,Benchmark B,CrashRestartDurabilityLoss,PHANTOM_CausalMinimizer,6,4,0.33333333333333337,33.33,11,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.0061576999723911285
+BM_B4,Benchmark B,CrashRestartDurabilityLoss,PHANTOM_FeedbackGuidedSearch,6,4,0.33333333333333337,33.33,147,True,True,1.0,1.0,1-MINIMAL,0.19561890000477433
+BM_B4,Benchmark B,CrashRestartDurabilityLoss,DeltaDebugging_ddmin,6,4,0.33333333333333337,33.33,15,True,True,1.0,0.0,1-MINIMAL,0.004479600000195205
+BM_B4,Benchmark B,CrashRestartDurabilityLoss,RandomSearch,6,4,0.33333333333333337,33.33,150,True,True,1.0,0.0,1-MINIMAL,0.026580799953080714
+BM_B5,Benchmark B,PartitionHealingDesyncAnomaly,PHANTOM_CausalMinimizer,7,4,0.4285714285714286,42.86,17,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.004635700024664402
+BM_B5,Benchmark B,PartitionHealingDesyncAnomaly,PHANTOM_FeedbackGuidedSearch,7,4,0.4285714285714286,42.86,144,True,True,1.0,1.0,1-MINIMAL,0.15136659995187074
+BM_B5,Benchmark B,PartitionHealingDesyncAnomaly,DeltaDebugging_ddmin,7,4,0.4285714285714286,42.86,26,True,True,1.0,0.0,1-MINIMAL,0.007592900074087083
+BM_B5,Benchmark B,PartitionHealingDesyncAnomaly,RandomSearch,7,4,0.4285714285714286,42.86,150,True,True,1.0,0.0,1-MINIMAL,0.02212179999332875
+BM_B6,Benchmark B,AsymmetricPartitionFailoverAnomaly,PHANTOM_CausalMinimizer,9,4,0.5555555555555556,55.56,17,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.005643599899485707
+BM_B6,Benchmark B,AsymmetricPartitionFailoverAnomaly,PHANTOM_FeedbackGuidedSearch,9,4,0.5555555555555556,55.56,145,True,True,1.0,1.0,1-MINIMAL,0.3347218999406323
+BM_B6,Benchmark B,AsymmetricPartitionFailoverAnomaly,DeltaDebugging_ddmin,9,4,0.5555555555555556,55.56,19,True,True,1.0,0.0,1-MINIMAL,0.003029600018635392
+BM_B6,Benchmark B,AsymmetricPartitionFailoverAnomaly,RandomSearch,9,5,0.4444444444444444,44.44,150,True,True,1.0,0.0,1-MINIMAL,0.0322738999966532
+BM_C1,Benchmark C,TwoPhaseCommitTimeoutDesync,PHANTOM_CausalMinimizer,17,3,0.8235294117647058,82.35,17,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.014141699997708201
+BM_C1,Benchmark C,TwoPhaseCommitTimeoutDesync,PHANTOM_FeedbackGuidedSearch,17,3,0.8235294117647058,82.35,144,True,True,1.0,1.0,1-MINIMAL,0.6822870000032708
+BM_C1,Benchmark C,TwoPhaseCommitTimeoutDesync,DeltaDebugging_ddmin,17,3,0.8235294117647058,82.35,25,True,True,1.0,0.0,1-MINIMAL,0.006106599932536483
+BM_C1,Benchmark C,TwoPhaseCommitTimeoutDesync,RandomSearch,17,4,0.7647058823529411,76.47,150,True,True,1.0,0.0,1-MINIMAL,0.055637599900364876
+BM_C2,Benchmark C,DistributedLeaseRenewalRace,PHANTOM_CausalMinimizer,9,3,0.6666666666666667,66.67,10,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.007089800084941089
+BM_C2,Benchmark C,DistributedLeaseRenewalRace,PHANTOM_FeedbackGuidedSearch,9,3,0.6666666666666667,66.67,145,True,True,1.0,1.0,1-MINIMAL,0.284542299923487
+BM_C2,Benchmark C,DistributedLeaseRenewalRace,DeltaDebugging_ddmin,9,3,0.6666666666666667,66.67,21,True,True,1.0,0.0,1-MINIMAL,0.00452210009098053
+BM_C2,Benchmark C,DistributedLeaseRenewalRace,RandomSearch,9,4,0.5555555555555556,55.56,150,True,True,1.0,0.0,1-MINIMAL,0.03624559997115284
+BM_C3,Benchmark C,SagaCompensationRace,PHANTOM_CausalMinimizer,10,3,0.7,70.0,9,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.006852800026535988
+BM_C3,Benchmark C,SagaCompensationRace,PHANTOM_FeedbackGuidedSearch,10,3,0.7,70.0,146,True,True,1.0,1.0,1-MINIMAL,0.43490120000205934
+BM_C3,Benchmark C,SagaCompensationRace,DeltaDebugging_ddmin,10,3,0.7,70.0,21,True,True,1.0,0.0,1-MINIMAL,0.003033700049854815
+BM_C3,Benchmark C,SagaCompensationRace,RandomSearch,10,3,0.7,70.0,150,True,True,1.0,0.0,1-MINIMAL,0.04598649998661131
+BM_C4,Benchmark C,RaftLogTruncationDivergence,PHANTOM_CausalMinimizer,8,4,0.5,50.0,15,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.005111800041049719
+BM_C4,Benchmark C,RaftLogTruncationDivergence,PHANTOM_FeedbackGuidedSearch,8,4,0.5,50.0,144,True,True,1.0,1.0,1-MINIMAL,0.22222120000515133
+BM_C4,Benchmark C,RaftLogTruncationDivergence,DeltaDebugging_ddmin,8,4,0.5,50.0,32,True,True,1.0,0.0,1-MINIMAL,0.0063307000091299415
+BM_C4,Benchmark C,RaftLogTruncationDivergence,RandomSearch,8,5,0.375,37.5,150,True,True,1.0,0.0,1-MINIMAL,0.031582700088620186
+BM_C5,Benchmark C,KafkaConsumerOffsetRewind,PHANTOM_CausalMinimizer,8,2,0.75,75.0,8,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.008450200082734227
+BM_C5,Benchmark C,KafkaConsumerOffsetRewind,PHANTOM_FeedbackGuidedSearch,8,2,0.75,75.0,147,True,True,1.0,1.0,1-MINIMAL,0.35679840005468577
+BM_C5,Benchmark C,KafkaConsumerOffsetRewind,DeltaDebugging_ddmin,8,2,0.75,75.0,5,True,True,1.0,0.0,1-MINIMAL,0.002156200003810227
+BM_C5,Benchmark C,KafkaConsumerOffsetRewind,RandomSearch,8,2,0.75,75.0,150,True,True,1.0,0.0,1-MINIMAL,0.04844090004917234
+GT-01,Ground Truth,Raft Split-Brain Stale Leader Commit,PHANTOM_CausalMinimizer,9,3,0.6666666666666667,66.67,9,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.00590119999833405
+GT-01,Ground Truth,Raft Split-Brain Stale Leader Commit,PHANTOM_FeedbackGuidedSearch,9,3,0.6666666666666667,66.67,145,True,True,1.0,1.0,1-MINIMAL,0.2524673999287188
+GT-01,Ground Truth,Raft Split-Brain Stale Leader Commit,DeltaDebugging_ddmin,9,3,0.6666666666666667,66.67,9,True,True,1.0,0.0,1-MINIMAL,0.0011679999297484756
+GT-01,Ground Truth,Raft Split-Brain Stale Leader Commit,RandomSearch,9,3,0.6666666666666667,66.67,150,True,True,1.0,0.0,1-MINIMAL,0.041372799896635115
+GT-02,Ground Truth,Two-Phase Commit Coordinator Crash Atomicity Loss,PHANTOM_CausalMinimizer,8,3,0.625,62.5,10,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.005418200045824051
+GT-02,Ground Truth,Two-Phase Commit Coordinator Crash Atomicity Loss,PHANTOM_FeedbackGuidedSearch,8,3,0.625,62.5,145,True,True,1.0,1.0,1-MINIMAL,0.3631162999663502
+GT-02,Ground Truth,Two-Phase Commit Coordinator Crash Atomicity Loss,DeltaDebugging_ddmin,8,3,0.625,62.5,35,True,True,1.0,0.0,1-MINIMAL,0.005494200042448938
+GT-02,Ground Truth,Two-Phase Commit Coordinator Crash Atomicity Loss,RandomSearch,8,3,0.625,62.5,150,True,True,1.0,0.0,1-MINIMAL,0.04258260002825409
+GT-03,Ground Truth,Async Replication Failover Lost Acknowledged Write,PHANTOM_CausalMinimizer,7,3,0.5714285714285714,57.14,11,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.00634570000693202
+GT-03,Ground Truth,Async Replication Failover Lost Acknowledged Write,PHANTOM_FeedbackGuidedSearch,7,4,0.4285714285714286,42.86,145,True,True,1.0,1.0,1-MINIMAL,0.19190340000204742
+GT-03,Ground Truth,Async Replication Failover Lost Acknowledged Write,DeltaDebugging_ddmin,7,3,0.5714285714285714,57.14,28,True,True,1.0,0.0,1-MINIMAL,0.005413200007751584
+GT-03,Ground Truth,Async Replication Failover Lost Acknowledged Write,RandomSearch,7,3,0.5714285714285714,57.14,150,True,True,1.0,0.0,1-MINIMAL,0.042692999937571585
+GT-04,Ground Truth,Consumer Rebalance Duplicate Message Execution,PHANTOM_CausalMinimizer,8,3,0.625,62.5,10,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.008706299937330186
+GT-04,Ground Truth,Consumer Rebalance Duplicate Message Execution,PHANTOM_FeedbackGuidedSearch,8,3,0.625,62.5,145,True,True,1.0,1.0,1-MINIMAL,0.3074429000262171
+GT-04,Ground Truth,Consumer Rebalance Duplicate Message Execution,DeltaDebugging_ddmin,8,3,0.625,62.5,28,True,True,1.0,0.0,1-MINIMAL,0.0069660000735893846
+GT-04,Ground Truth,Consumer Rebalance Duplicate Message Execution,RandomSearch,8,3,0.625,62.5,150,True,True,1.0,0.0,1-MINIMAL,0.03123079997021705
+GT-05,Ground Truth,Snapshot Isolation Doctor On-Call Write Skew,PHANTOM_CausalMinimizer,7,3,0.5714285714285714,57.14,9,True,True,1.0,1.0,GLOBALLY-MINIMAL,0.004896599915809929
+GT-05,Ground Truth,Snapshot Isolation Doctor On-Call Write Skew,PHANTOM_FeedbackGuidedSearch,7,3,0.5714285714285714,57.14,146,True,True,1.0,1.0,1-MINIMAL,0.3004951999755576
+GT-05,Ground Truth,Snapshot Isolation Doctor On-Call Write Skew,DeltaDebugging_ddmin,7,3,0.5714285714285714,57.14,15,True,True,1.0,0.0,1-MINIMAL,0.0030059999553486705
+GT-05,Ground Truth,Snapshot Isolation Doctor On-Call Write Skew,RandomSearch,7,4,0.4285714285714286,42.86,150,True,True,1.0,0.0,1-MINIMAL,0.03070630005095154

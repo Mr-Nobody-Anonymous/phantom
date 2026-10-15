@@ -1,0 +1,875 @@
+{
+  "case_id": "BM_C5",
+  "case_name": "KafkaConsumerOffsetRewind",
+  "category": "Benchmark C",
+  "algorithm": "PHANTOM_FeedbackGuidedSearch",
+  "input_trace_size": 8,
+  "input_trace_hash": "",
+  "failure_signature": "KafkaOffsetRewindDuplicateAnomaly",
+  "executions_count": 147,
+  "minimized_event_count": 2,
+  "reduction_ratio": 0.75,
+  "reproduction_rate": 1.0,
+  "confidence_score": 1.0,
+  "minimality_level": "1-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.35679840005468577,
+  "retained_event_ids": [
+    "consumer_re_execute",
+    "assert_exactly_once"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "phase": "initial_validation",
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "phase": "causal_slicing",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 3,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 4,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 5,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 6,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 7,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 8,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 9,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 10,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 11,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 12,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 13,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 14,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 15,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 16,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 17,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 18,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 19,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 20,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 21,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 22,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 23,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 24,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 25,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 26,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 27,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 28,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 29,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 30,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 31,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 32,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 33,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 34,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 35,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 36,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 37,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 38,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 39,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 40,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 41,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 42,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 43,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 44,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 45,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 46,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 47,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 48,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 49,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 50,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 51,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 52,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 53,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 54,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 55,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 56,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 57,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 58,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 59,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 60,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 61,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 62,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 63,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 64,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 65,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 66,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 67,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 68,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 69,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 70,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 71,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 72,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 73,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 74,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 75,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 76,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 77,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 78,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 79,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 80,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 81,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 82,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 83,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 84,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 85,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 86,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 87,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 88,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 89,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 90,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 91,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 92,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 93,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 94,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 95,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 96,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 97,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 98,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 99,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 100,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 101,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 102,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 103,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 104,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 105,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 106,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 107,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 108,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 109,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 110,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 111,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 112,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 113,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 114,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 115,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 116,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 117,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 118,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 119,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 120,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 121,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 122,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 123,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 124,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 125,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 126,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 127,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 128,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 129,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 130,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 131,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 132,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 133,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 134,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 135,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 136,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 137,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 138,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 139,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 140,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 141,
+      "phase": "feedback_search",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086054.1903484
+  }
+}

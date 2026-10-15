@@ -1,0 +1,99 @@
+{
+  "case_id": "GT-02",
+  "case_name": "Two-Phase Commit Coordinator Crash Atomicity Loss",
+  "category": "Ground Truth",
+  "algorithm": "PHANTOM_CausalMinimizer",
+  "input_trace_size": 8,
+  "input_trace_hash": "f4c5773cb7281071100fd0d9cfc7d57ec24eaadf63e6405d4a217d61cfed4a62",
+  "failure_signature": "TwoPhaseCommitDesyncAtomicLoss",
+  "executions_count": 10,
+  "minimized_event_count": 3,
+  "reduction_ratio": 0.625,
+  "reproduction_rate": 1.0,
+  "confidence_score": 1.0,
+  "minimality_level": "GLOBALLY-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.005418200045824051,
+  "retained_event_ids": [
+    "assert_2pc_atomicity",
+    "commit_s1",
+    "init_p2"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "phase": "initial_validation",
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "phase": "fault_necessity_test",
+      "tested_fault": "fault_crash_coord",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 3,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 4,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 5,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 6,
+      "phase": "necessity_ledger",
+      "tested_event": "commit_s1",
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 7,
+      "phase": "necessity_ledger",
+      "tested_event": "init_p2",
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 8,
+      "phase": "necessity_ledger",
+      "tested_event": "bg_telemetry",
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 9,
+      "phase": "necessity_ledger",
+      "tested_event": "recv_prep_s1",
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 10,
+      "phase": "necessity_ledger",
+      "tested_event": "prep_s1",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086054.6345255
+  }
+}

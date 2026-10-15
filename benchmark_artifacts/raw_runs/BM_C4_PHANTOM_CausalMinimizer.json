@@ -1,0 +1,113 @@
+{
+  "case_id": "BM_C4",
+  "case_name": "RaftLogTruncationDivergence",
+  "category": "Benchmark C",
+  "algorithm": "PHANTOM_CausalMinimizer",
+  "input_trace_size": 8,
+  "input_trace_hash": "1d8bb5a61e89f2ec2e28c1495b7522f4697977ff74483423e31c2ee3202ad046",
+  "failure_signature": "RaftLogDivergenceAnomaly",
+  "executions_count": 15,
+  "minimized_event_count": 4,
+  "reduction_ratio": 0.5,
+  "reproduction_rate": 1.0,
+  "confidence_score": 1.0,
+  "minimality_level": "GLOBALLY-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.005111800041049719,
+  "retained_event_ids": [
+    "assert_raft_log_agreement",
+    "fault_delay_n1",
+    "n2_elect_term2",
+    "n2_overwrite_idx5"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "phase": "initial_validation",
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "phase": "causal_slicing",
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 3,
+      "phase": "fault_necessity_test",
+      "tested_fault": "fault_delay_n1",
+      "size": 7,
+      "verdict": "PASS"
+    },
+    {
+      "step": 4,
+      "phase": "topological_pruning",
+      "pruned_block_size": 2,
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 5,
+      "phase": "topological_pruning",
+      "pruned_block_size": 2,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 6,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 7,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 8,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 9,
+      "phase": "necessity_ledger",
+      "tested_event": "n2_overwrite_idx5",
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 10,
+      "phase": "necessity_ledger",
+      "tested_event": "fault_delay_n1",
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 11,
+      "phase": "necessity_ledger",
+      "tested_event": "bg_raft_snap",
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 12,
+      "phase": "necessity_ledger",
+      "tested_event": "n2_elect_term2",
+      "size": 3,
+      "verdict": "PASS"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086053.5006688
+  }
+}

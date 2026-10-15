@@ -1,0 +1,126 @@
+{
+  "case_id": "BM_B6",
+  "case_name": "AsymmetricPartitionFailoverAnomaly",
+  "category": "Benchmark B",
+  "algorithm": "DeltaDebugging_ddmin",
+  "input_trace_size": 9,
+  "input_trace_hash": "",
+  "failure_signature": "AsymmetricPartitionFailoverAnomaly",
+  "executions_count": 19,
+  "minimized_event_count": 4,
+  "reduction_ratio": 0.5555555555555556,
+  "reproduction_rate": 1.0,
+  "confidence_score": 0.0,
+  "minimality_level": "1-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.003029600018635392,
+  "retained_event_ids": [
+    "a_promote_self",
+    "assert_single_active_leader",
+    "b_still_serving",
+    "fault_drop_pong"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "size": 9,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 3,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 4,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 5,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 6,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 7,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 8,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 9,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 10,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 11,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 12,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 13,
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 14,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 15,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 16,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 17,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 18,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 19,
+      "size": 3,
+      "verdict": "PASS"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086051.7146504
+  }
+}

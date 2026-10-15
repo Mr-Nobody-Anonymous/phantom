@@ -59,13 +59,23 @@ class Trace:
             metadata=dict(self.metadata),
         )
 
-    def validate(self) -> Tuple[bool, Optional[str]]:
+    def compute_hash(self) -> str:
+        """Compute deterministic SHA-256 fingerprint of the trace."""
+        import hashlib
+        canonical = json.dumps(self.to_dict(), sort_keys=True)
+        return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+    def validate(self, check_causality: bool = False) -> Tuple[bool, Optional[str]]:
         """
         Validate causal sanity of the trace:
         1. Unique event IDs
         2. Non-empty if failure is set
-        3. RECEIVE must refer to existing message or preceding SEND
+        3. Valid failure event reference
+        4. Optional causal graph cycle and consistency check
         """
+        if not self.events and self.failure_event_id:
+            return False, "Trace has failure_event_id but contains no events"
+
         seen_ids = set()
         for e in self.events:
             if e.event_id in seen_ids:
@@ -74,6 +84,13 @@ class Trace:
 
         if self.failure_event_id and self.failure_event_id not in seen_ids:
             return False, f"Failure event '{self.failure_event_id}' not found in events"
+
+        if check_causality:
+            from phantom.core.graph import CausalGraph, CausalInconsistencyError
+            try:
+                CausalGraph(self, strict_mode=True)
+            except CausalInconsistencyError as e:
+                return False, str(e)
 
         return True, None
 

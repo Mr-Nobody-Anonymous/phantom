@@ -1,0 +1,242 @@
+{
+  "case_id": "BM_A5",
+  "case_name": "DeadlockCircularWaitAnomaly",
+  "category": "Benchmark A",
+  "algorithm": "DeltaDebugging_ddmin",
+  "input_trace_size": 8,
+  "input_trace_hash": "",
+  "failure_signature": "DeadlockCircularWaitAnomaly",
+  "executions_count": 42,
+  "minimized_event_count": 5,
+  "reduction_ratio": 0.375,
+  "reproduction_rate": 1.0,
+  "confidence_score": 0.0,
+  "minimality_level": "1-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.009400100097991526,
+  "retained_event_ids": [
+    "assert_no_deadlock",
+    "w1_lock_a",
+    "w1_req_b",
+    "w2_lock_b",
+    "w2_req_a"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 3,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 4,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 5,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 6,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 7,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 8,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 9,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 10,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 11,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 12,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 13,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 14,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 15,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 16,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 17,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 18,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 19,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 20,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 21,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 22,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 23,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 24,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 25,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 26,
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 27,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 28,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 29,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 30,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 31,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 32,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 33,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 34,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 35,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 36,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 37,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 38,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 39,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 40,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 41,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 42,
+      "size": 4,
+      "verdict": "PASS"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086049.483547
+  }
+}

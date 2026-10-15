@@ -1,0 +1,91 @@
+{
+  "case_id": "BM_C3",
+  "case_name": "SagaCompensationRace",
+  "category": "Benchmark C",
+  "algorithm": "PHANTOM_CausalMinimizer",
+  "input_trace_size": 10,
+  "input_trace_hash": "ba427cfe8092b1112886550e82ecaab92714b70284d1239a4ee7e912e991e58b",
+  "failure_signature": "SagaCompensationReorderGhostBilling",
+  "executions_count": 9,
+  "minimized_event_count": 3,
+  "reduction_ratio": 0.7,
+  "reproduction_rate": 1.0,
+  "confidence_score": 1.0,
+  "minimality_level": "GLOBALLY-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.006852800026535988,
+  "retained_event_ids": [
+    "assert_no_ghost_charge",
+    "charge_customer",
+    "reject_cancel"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "phase": "initial_validation",
+      "size": 10,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "phase": "causal_slicing",
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 3,
+      "phase": "fault_necessity_test",
+      "tested_fault": "fault_delay_auth",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 4,
+      "phase": "necessity_ledger",
+      "tested_event": "recv_auth",
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 5,
+      "phase": "necessity_ledger",
+      "tested_event": "charge_customer",
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 6,
+      "phase": "necessity_ledger",
+      "tested_event": "send_auth",
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 7,
+      "phase": "necessity_ledger",
+      "tested_event": "send_cancel",
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 8,
+      "phase": "necessity_ledger",
+      "tested_event": "recv_cancel",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 9,
+      "phase": "necessity_ledger",
+      "tested_event": "reject_cancel",
+      "size": 2,
+      "verdict": "PASS"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086052.9681418
+  }
+}

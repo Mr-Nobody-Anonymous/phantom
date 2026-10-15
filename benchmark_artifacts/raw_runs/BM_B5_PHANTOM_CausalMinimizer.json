@@ -1,0 +1,127 @@
+{
+  "case_id": "BM_B5",
+  "case_name": "PartitionHealingDesyncAnomaly",
+  "category": "Benchmark B",
+  "algorithm": "PHANTOM_CausalMinimizer",
+  "input_trace_size": 7,
+  "input_trace_hash": "d509a612adeec20afdb9366777476f14ffb141d291575b75ec95e6d1df21f838",
+  "failure_signature": "PartitionHealingDesyncAnomaly",
+  "executions_count": 17,
+  "minimized_event_count": 4,
+  "reduction_ratio": 0.4285714285714286,
+  "reproduction_rate": 1.0,
+  "confidence_score": 1.0,
+  "minimality_level": "GLOBALLY-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.004635700024664402,
+  "retained_event_ids": [
+    "a_write_config",
+    "assert_cross_region_convergence",
+    "b_write_config",
+    "fault_isolate_ab"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "phase": "initial_validation",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "phase": "causal_slicing",
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 3,
+      "phase": "fault_necessity_test",
+      "tested_fault": "fault_isolate_ab",
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 4,
+      "phase": "topological_pruning",
+      "pruned_block_size": 2,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 5,
+      "phase": "topological_pruning",
+      "pruned_block_size": 2,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 6,
+      "phase": "topological_pruning",
+      "pruned_block_size": 2,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 7,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 8,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 9,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 10,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 11,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 12,
+      "phase": "necessity_ledger",
+      "tested_event": "b_write_config",
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 13,
+      "phase": "necessity_ledger",
+      "tested_event": "fault_isolate_ab",
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 14,
+      "phase": "necessity_ledger",
+      "tested_event": "a_write_config",
+      "size": 3,
+      "verdict": "PASS"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086051.1357532
+  }
+}

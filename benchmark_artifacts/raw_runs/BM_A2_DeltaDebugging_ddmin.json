@@ -1,0 +1,59 @@
+{
+  "case_id": "BM_A2",
+  "case_name": "DoubleSpendRace",
+  "category": "Benchmark A",
+  "algorithm": "DeltaDebugging_ddmin",
+  "input_trace_size": 10,
+  "input_trace_hash": "",
+  "failure_signature": "NegativeBalanceDoubleSpend",
+  "executions_count": 6,
+  "minimized_event_count": 2,
+  "reduction_ratio": 0.8,
+  "reproduction_rate": 1.0,
+  "confidence_score": 0.0,
+  "minimality_level": "1-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.0012888999190181494,
+  "retained_event_ids": [
+    "assert_bal",
+    "tx2_deduct"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "size": 10,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 3,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 4,
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 5,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 6,
+      "size": 2,
+      "verdict": "REPRODUCED"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086048.5548816
+  }
+}

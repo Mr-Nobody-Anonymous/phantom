@@ -75,6 +75,8 @@ def replay_minimal_schedule():
 
     # Initial environment state
     kv_store = {initial_state_json}
+    durable_kv = dict(kv_store)
+    unflushed_writes = {{}}  # node -> [(key, val)]
     node_status = {{}}       # node -> "UP" | "CRASHED"
     message_buffer = {{}}    # msg_id -> {{source, target, payload}}
     dropped_messages = set()
@@ -106,14 +108,25 @@ def replay_minimal_schedule():
         if etype == "WRITE":
             key = payload.get("key") or payload.get("state_key")
             val = payload.get("val") if "val" in payload else payload.get("value")
+            is_durable = payload.get("durable", False) or payload.get("sync", False)
             if key is not None:
                 kv_store[str(key)] = val
+                if is_durable:
+                    durable_kv[str(key)] = val
+                else:
+                    unflushed_writes.setdefault(node, []).append((str(key), val))
                 print(f"  * [{{node}}] WRITE {{key}} = {{val}}")
 
         elif etype == "READ":
             key = payload.get("key") or payload.get("state_key")
             val = kv_store.get(str(key))
             print(f"  * [{{node}}] READ {{key}} -> {{val}}")
+
+        elif etype == "SYNC":
+            flushed = unflushed_writes.pop(node, [])
+            for k, v in flushed:
+                durable_kv[k] = v
+            print(f"  * [{{node}}] SYNC disk flush ({{len(flushed)}} writes)")
 
         elif etype == "SEND":
             msg_id = payload.get("msg_id") or payload.get("message_id") or eid
@@ -157,7 +170,13 @@ def replay_minimal_schedule():
         elif etype == "FAULT_CRASH":
             target_node = payload.get("target_node", node)
             node_status[target_node] = "CRASHED"
-            print(f"  ! [FAULT] Node {{target_node}} CRASHED")
+            lost = unflushed_writes.pop(target_node, [])
+            for k, _ in lost:
+                if k in durable_kv:
+                    kv_store[k] = durable_kv[k]
+                else:
+                    kv_store.pop(k, None)
+            print(f"  ! [FAULT] Node {{target_node}} CRASHED ({{len(lost)}} unflushed writes lost)")
 
         elif etype == "FAULT_RESTART":
             target_node = payload.get("target_node", node)
@@ -182,8 +201,8 @@ def replay_minimal_schedule():
                 else:
                     print(f"  [OK] [ASSERTION SATISFIED] {{assertion_name}}: {{key}} == {{actual}}")
             else:
-                # Invariant evaluated at end of schedule
-                print(f"  ? [ASSERTION CHECK] {{assertion_name}}")
+                errors.append(sig)
+                print(f"  X [ASSERTION REACHED] {{assertion_name}}")
 
     # Invariant evaluation: check specific failure signatures
     if "{fail_sig}" == "DuplicateOrderProcessing":
@@ -248,3 +267,187 @@ if __name__ == "__main__":
             p.write_text(script_content, encoding="utf-8")
 
         return script_content
+
+    @staticmethod
+    def generate_pytest_test(
+        result: MinimizerResult,
+        output_path: Optional[str | Path] = None,
+    ) -> str:
+        """Generate a pytest-compatible test case for CI/CD reproduction suites."""
+        trace = result.minimized_trace
+        fail_sig = trace.failure_signature or "DistributedInvariantFailure"
+
+        content = f'''"""
+Pytest Reproduction Suite for {fail_sig}
+Generated automatically by Project PHANTOM.
+"""
+
+import pytest
+import sys
+from pathlib import Path
+
+# Add current directory to path
+sys.path.insert(0, str(Path(__file__).parent))
+
+try:
+    from reproduce import replay_minimal_schedule
+except ImportError:
+    # Fallback to local import
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("reproduce", Path(__file__).parent / "reproduce.py")
+    reproduce_mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(reproduce_mod)
+    replay_minimal_schedule = reproduce_mod.replay_minimal_schedule
+
+
+def test_reproduce_invariant_failure():
+    """Verify that minimal schedule deterministically reproduces {fail_sig}."""
+    reproduced = replay_minimal_schedule()
+    assert reproduced is True, "Expected target invariant violation '{fail_sig}' did not reproduce."
+'''
+        if output_path:
+            p = Path(output_path)
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(content, encoding="utf-8")
+        return content
+
+    @staticmethod
+    def generate_dockerfile(
+        result: MinimizerResult,
+        output_path: Optional[str | Path] = None,
+    ) -> str:
+        """Generate an isolated Dockerfile for containerized reproducer execution."""
+        content = '''# syntax=docker/dockerfile:1
+FROM python:3.10-slim
+
+# Create unprivileged runner user for security and isolation
+RUN useradd -m -u 1000 phantomuser
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+RUN chown -R phantomuser:phantomuser /app
+
+USER phantomuser
+
+# Run standalone reproducer
+CMD ["python", "reproduce.py"]
+'''
+        if output_path:
+            p = Path(output_path)
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(content, encoding="utf-8")
+        return content
+
+    @staticmethod
+    def generate_docker_compose(
+        result: MinimizerResult,
+        output_path: Optional[str | Path] = None,
+    ) -> str:
+        """Generate docker-compose.yml for running reproduction in isolated network sandbox."""
+        trace = result.minimized_trace
+        nodes = sorted(list(trace.nodes())) or ["node1", "node2"]
+
+        content = f'''version: '3.8'
+
+services:
+  reproducer:
+    build: .
+    container_name: phantom-reproducer
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PHANTOM_REPRODUCER_TARGET={trace.failure_signature}
+    networks:
+      phantom-isolated:
+
+networks:
+  phantom-isolated:
+    driver: bridge
+'''
+        if output_path:
+            p = Path(output_path)
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(content, encoding="utf-8")
+        return content
+
+    @classmethod
+    def generate_bundle(
+        cls,
+        result: MinimizerResult,
+        output_dir: str | Path,
+    ) -> Dict[str, Path]:
+        """Generate a complete, self-contained reproducer bundle with all configs and scripts."""
+        out = Path(output_dir)
+        out.mkdir(parents=True, exist_ok=True)
+
+        paths = {}
+        # 1. Standalone Python reproducer script
+        script_p = out / "reproduce.py"
+        cls.generate_script(result, script_p)
+        paths["script"] = script_p
+
+        # 2. Pytest test case
+        pytest_p = out / "test_reproduce.py"
+        cls.generate_pytest_test(result, pytest_p)
+        paths["pytest"] = pytest_p
+
+        # 3. Dockerfile
+        docker_p = out / "Dockerfile"
+        cls.generate_dockerfile(result, docker_p)
+        paths["dockerfile"] = docker_p
+
+        # 4. Docker Compose
+        compose_p = out / "docker-compose.yml"
+        cls.generate_docker_compose(result, compose_p)
+        paths["docker_compose"] = compose_p
+
+        # 5. Requirements
+        req_p = out / "requirements.txt"
+        req_p.write_text("pytest>=7.0.0\n", encoding="utf-8")
+        paths["requirements"] = req_p
+
+        # 6. Schedule JSON
+        sched_p = out / "schedule.json"
+        sched_data = {
+            "failure_signature": result.minimized_trace.failure_signature,
+            "original_events": result.original_event_count,
+            "minimized_events": result.minimized_event_count,
+            "reduction_ratio": result.reduction_ratio,
+            "minimality_level": result.minimality_level.value if hasattr(result.minimality_level, "value") else str(result.minimality_level),
+            "events": [e.to_dict() for e in result.minimized_trace.events],
+        }
+        sched_p.write_text(json.dumps(sched_data, indent=2), encoding="utf-8")
+        paths["schedule_json"] = sched_p
+
+        # 7. README.md
+        readme_p = out / "README.md"
+        readme_text = f"""# Minimal Failure Reproducer Bundle
+**Target Failure:** `{result.minimized_trace.failure_signature}`
+**Algorithm:** `{result.algorithm_name}`
+**Reduction:** {result.original_event_count} -> {result.minimized_event_count} events ({result.reduction_ratio * 100:.1f}%)
+**Minimality Level:** {result.minimality_level.value if hasattr(result.minimality_level, "value") else str(result.minimality_level)}
+
+## Quickstart
+
+### 1. Run via Python:
+```bash
+python reproduce.py
+```
+
+### 2. Run via Pytest:
+```bash
+pytest test_reproduce.py
+```
+
+### 3. Run in Disposable Docker Container:
+```bash
+docker build -t phantom-reproduce .
+docker run --rm phantom-reproduce
+```
+"""
+        readme_p.write_text(readme_text, encoding="utf-8")
+        paths["readme"] = readme_p
+
+        return paths

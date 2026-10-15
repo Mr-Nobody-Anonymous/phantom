@@ -1,0 +1,155 @@
+{
+  "case_id": "BM_C1",
+  "case_name": "TwoPhaseCommitTimeoutDesync",
+  "category": "Benchmark C",
+  "algorithm": "DeltaDebugging_ddmin",
+  "input_trace_size": 17,
+  "input_trace_hash": "",
+  "failure_signature": "TwoPhaseCommitDesyncAnomaly",
+  "executions_count": 25,
+  "minimized_event_count": 3,
+  "reduction_ratio": 0.8235294117647058,
+  "reproduction_rate": 1.0,
+  "confidence_score": 0.0,
+  "minimality_level": "1-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.006106599932536483,
+  "retained_event_ids": [
+    "assert_2pc_atomicity",
+    "p1_do_abort",
+    "p2_do_commit"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "size": 17,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "size": 9,
+      "verdict": "PASS"
+    },
+    {
+      "step": 3,
+      "size": 9,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 4,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 5,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 6,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 7,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 8,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 9,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 10,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 11,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 12,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 13,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 14,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 15,
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 16,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 17,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 18,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 19,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 20,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 21,
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 22,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 23,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 24,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 25,
+      "size": 2,
+      "verdict": "PASS"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086052.5033836
+  }
+}

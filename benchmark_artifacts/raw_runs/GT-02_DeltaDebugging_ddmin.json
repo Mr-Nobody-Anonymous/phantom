@@ -1,0 +1,205 @@
+{
+  "case_id": "GT-02",
+  "case_name": "Two-Phase Commit Coordinator Crash Atomicity Loss",
+  "category": "Ground Truth",
+  "algorithm": "DeltaDebugging_ddmin",
+  "input_trace_size": 8,
+  "input_trace_hash": "",
+  "failure_signature": "TwoPhaseCommitDesyncAtomicLoss",
+  "executions_count": 35,
+  "minimized_event_count": 3,
+  "reduction_ratio": 0.625,
+  "reproduction_rate": 1.0,
+  "confidence_score": 0.0,
+  "minimality_level": "1-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.005494200042448938,
+  "retained_event_ids": [
+    "assert_2pc_atomicity",
+    "commit_s1",
+    "init_p2"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 3,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 4,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 5,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 6,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 7,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 8,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 9,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 10,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 11,
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 12,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 13,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 14,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 15,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 16,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 17,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 18,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 19,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 20,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 21,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 22,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 23,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 24,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 25,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 26,
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 27,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 28,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 29,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 30,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 31,
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 32,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 33,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 34,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 35,
+      "size": 2,
+      "verdict": "PASS"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086055.026463
+  }
+}

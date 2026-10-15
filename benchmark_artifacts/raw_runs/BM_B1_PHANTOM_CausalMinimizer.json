@@ -1,0 +1,97 @@
+{
+  "case_id": "BM_B1",
+  "case_name": "DelayedRetryStorm",
+  "category": "Benchmark B",
+  "algorithm": "PHANTOM_CausalMinimizer",
+  "input_trace_size": 12,
+  "input_trace_hash": "f0d0ddbc6d269092efddbcb857e931a093f72c6c28ebc9c10c11da0d117b97e3",
+  "failure_signature": "RetryStormDuplicateExecution",
+  "executions_count": 10,
+  "minimized_event_count": 2,
+  "reduction_ratio": 0.8333333333333334,
+  "reproduction_rate": 1.0,
+  "confidence_score": 1.0,
+  "minimality_level": "GLOBALLY-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.007030499982647598,
+  "retained_event_ids": [
+    "assert_idempotent_retry",
+    "server_a_exec_2"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "phase": "initial_validation",
+      "size": 12,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "phase": "causal_slicing",
+      "size": 9,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 3,
+      "phase": "fault_necessity_test",
+      "tested_fault": "fault_delay_server_a",
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 4,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 5,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 6,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 7,
+      "phase": "necessity_ledger",
+      "tested_event": "server_a_recv_1",
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 8,
+      "phase": "necessity_ledger",
+      "tested_event": "server_a_exec_1",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 9,
+      "phase": "necessity_ledger",
+      "tested_event": "server_a_exec_2",
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 10,
+      "phase": "necessity_ledger",
+      "tested_event": "server_a_recv_2",
+      "size": 2,
+      "verdict": "REPRODUCED"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086049.655422
+  }
+}

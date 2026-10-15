@@ -1,0 +1,149 @@
+{
+  "case_id": "BM_A6",
+  "case_name": "BalanceConservationAnomaly",
+  "category": "Benchmark A",
+  "algorithm": "PHANTOM_FeedbackGuidedSearch",
+  "input_trace_size": 7,
+  "input_trace_hash": "",
+  "failure_signature": "BalanceConservationAnomaly",
+  "executions_count": 22,
+  "minimized_event_count": 2,
+  "reduction_ratio": 0.7142857142857143,
+  "reproduction_rate": 1.0,
+  "confidence_score": 1.0,
+  "minimality_level": "1-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.015130399959161878,
+  "retained_event_ids": [
+    "w2_credit_b",
+    "assert_balance_conservation"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "phase": "initial_validation",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "phase": "causal_slicing",
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 3,
+      "phase": "feedback_search",
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 4,
+      "phase": "feedback_search",
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 5,
+      "phase": "feedback_search",
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 6,
+      "phase": "feedback_search",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 7,
+      "phase": "feedback_search",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 8,
+      "phase": "feedback_search",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 9,
+      "phase": "feedback_search",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 10,
+      "phase": "feedback_search",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 11,
+      "phase": "feedback_search",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 12,
+      "phase": "feedback_search",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 13,
+      "phase": "feedback_search",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 14,
+      "phase": "feedback_search",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 15,
+      "phase": "feedback_search",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 16,
+      "phase": "feedback_search",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 17,
+      "phase": "feedback_search",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 18,
+      "phase": "feedback_search",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 19,
+      "phase": "feedback_search",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 20,
+      "phase": "feedback_search",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086049.583605
+  }
+}

@@ -4,6 +4,7 @@ from phantom.benchmarks.base import BenchmarkCase
 from phantom.benchmarks.benchmark_a import get_benchmark_a_cases
 from phantom.benchmarks.benchmark_b import get_benchmark_b_cases
 from phantom.benchmarks.benchmark_c import get_benchmark_c_cases
+from phantom.benchmarks.benchmark_ground_truth import get_ground_truth_cases
 from phantom.benchmarks.runner import BenchmarkRunner
 
 __all__ = [
@@ -11,5 +12,6 @@ __all__ = [
     "get_benchmark_a_cases",
     "get_benchmark_b_cases",
     "get_benchmark_c_cases",
+    "get_ground_truth_cases",
     "BenchmarkRunner",
 ]

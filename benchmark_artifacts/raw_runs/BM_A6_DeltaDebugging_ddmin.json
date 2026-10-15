@@ -1,0 +1,49 @@
+{
+  "case_id": "BM_A6",
+  "case_name": "BalanceConservationAnomaly",
+  "category": "Benchmark A",
+  "algorithm": "DeltaDebugging_ddmin",
+  "input_trace_size": 7,
+  "input_trace_hash": "",
+  "failure_signature": "BalanceConservationAnomaly",
+  "executions_count": 4,
+  "minimized_event_count": 2,
+  "reduction_ratio": 0.7142857142857143,
+  "reproduction_rate": 1.0,
+  "confidence_score": 0.0,
+  "minimality_level": "1-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.0016026999801397324,
+  "retained_event_ids": [
+    "assert_balance_conservation",
+    "w1_debit_a"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 3,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 4,
+      "size": 2,
+      "verdict": "REPRODUCED"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086049.5923438
+  }
+}

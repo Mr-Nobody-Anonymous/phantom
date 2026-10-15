@@ -24,6 +24,9 @@ class OracleResult:
     violated_invariant: Optional[str] = None
     observed_state: Dict[str, Any] = field(default_factory=dict)
     details: str = ""
+    divergences: List[Dict[str, Any]] = field(default_factory=list)
+    retries_attempted: int = 0
+    is_divergent: bool = False
 
     @property
     def is_reproduced(self) -> bool:
@@ -61,12 +64,14 @@ class FailureOracle:
         self,
         final_state: Dict[str, Any],
         observed_errors: Optional[List[str]] = None,
+        divergences: Optional[List[Dict[str, Any]]] = None,
     ) -> OracleResult:
         """
         Evaluate final state and observed runtime errors against invariants.
         Returns REPRODUCED if the expected signature matches the violation.
         """
         errors = list(observed_errors or [])
+        divs = list(divergences or final_state.get("divergences", []))
 
         # Check invariant violations
         for name, predicate in self.invariants.items():
@@ -83,6 +88,8 @@ class FailureOracle:
                 failure_signature="",
                 observed_state=final_state,
                 details="All invariants hold; execution passed cleanly.",
+                divergences=divs,
+                is_divergent=bool(divs),
             )
 
         # Check whether any error matches the expected signature
@@ -99,6 +106,8 @@ class FailureOracle:
                 violated_invariant=matching_sig,
                 observed_state=final_state,
                 details=f"Target failure successfully reproduced: {matching_sig}",
+                divergences=divs,
+                is_divergent=bool(divs),
             )
         else:
             return OracleResult(
@@ -107,4 +116,24 @@ class FailureOracle:
                 violated_invariant=errors[0],
                 observed_state=final_state,
                 details=f"Different failure occurred (expected '{self.expected_signature}', got '{errors[0]}')",
+                divergences=divs,
+                is_divergent=bool(divs),
             )
+
+    def evaluate_with_retries(
+        self,
+        replay_fn: Callable[[], OracleResult],
+        max_retries: int = 2,
+    ) -> OracleResult:
+        """
+        Execute replay up to max_retries to distinguish genuine deterministic
+        invariant violations from transient timeout or environmental issues.
+        """
+        last_result: Optional[OracleResult] = None
+        for attempt in range(max_retries + 1):
+            res = replay_fn()
+            res.retries_attempted = attempt
+            last_result = res
+            if res.is_reproduced:
+                return res
+        return last_result or OracleResult(verdict=OracleVerdict.PASS)

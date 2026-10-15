@@ -1,0 +1,84 @@
+{
+  "case_id": "BM_A4",
+  "case_name": "LostUpdateCounterAnomaly",
+  "category": "Benchmark A",
+  "algorithm": "PHANTOM_CausalMinimizer",
+  "input_trace_size": 8,
+  "input_trace_hash": "3481624b3d240cfc8c16e04fd87b0d5dbea5d52c2de51c6f461389aab90c4e32",
+  "failure_signature": "LostUpdateCounterAnomaly",
+  "executions_count": 8,
+  "minimized_event_count": 3,
+  "reduction_ratio": 0.625,
+  "reproduction_rate": 1.0,
+  "confidence_score": 1.0,
+  "minimality_level": "GLOBALLY-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.003697299980558455,
+  "retained_event_ids": [
+    "assert_counter",
+    "c1_write",
+    "c2_write"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "phase": "initial_validation",
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "phase": "causal_slicing",
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 3,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 4,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 5,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 6,
+      "phase": "necessity_ledger",
+      "tested_event": "c2_read",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 7,
+      "phase": "necessity_ledger",
+      "tested_event": "c2_write",
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 8,
+      "phase": "necessity_ledger",
+      "tested_event": "c1_write",
+      "size": 2,
+      "verdict": "PASS"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086048.8667483
+  }
+}

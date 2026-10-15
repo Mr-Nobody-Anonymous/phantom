@@ -1,0 +1,170 @@
+{
+  "case_id": "GT-04",
+  "case_name": "Consumer Rebalance Duplicate Message Execution",
+  "category": "Ground Truth",
+  "algorithm": "DeltaDebugging_ddmin",
+  "input_trace_size": 8,
+  "input_trace_hash": "",
+  "failure_signature": "ConsumerRebalanceDuplicateExecution",
+  "executions_count": 28,
+  "minimized_event_count": 3,
+  "reduction_ratio": 0.625,
+  "reproduction_rate": 1.0,
+  "confidence_score": 0.0,
+  "minimality_level": "1-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.0069660000735893846,
+  "retained_event_ids": [
+    "assert_duplicate_charge",
+    "c1_charge",
+    "c2_charge"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 3,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 4,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 5,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 6,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 7,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 8,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 9,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 10,
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 11,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 12,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 13,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 14,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 15,
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 16,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 17,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 18,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 19,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 20,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 21,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 22,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 23,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 24,
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 25,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 26,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 27,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 28,
+      "size": 2,
+      "verdict": "PASS"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086055.7363539
+  }
+}

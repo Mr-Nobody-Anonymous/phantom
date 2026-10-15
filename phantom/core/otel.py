@@ -1,26 +1,56 @@
 """
 OpenTelemetry and Jaeger trace importer and exporter for Project PHANTOM.
-Ingests structured distributed trace spans, service logs, and parent-child contexts,
-mapping them into causal PHANTOM execution traces and happens-before partial orders.
+Enhanced with semantic attribute mapping (DB, messaging, RPC, HTTP),
+W3C context propagation, and missing-data diagnostics (incomplete spans, clock skew, missing parents).
 """
 
 from __future__ import annotations
+from dataclasses import dataclass, field
 import json
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 from phantom.core.event import Event, EventType, VectorClock
 from phantom.core.trace import Trace
 
 
+@dataclass
+class OTelDiagnostics:
+    """Detailed diagnostics of OpenTelemetry trace quality and missing evidence."""
+    incomplete_spans: List[Dict[str, Any]] = field(default_factory=list)
+    missing_parents: List[Dict[str, Any]] = field(default_factory=list)
+    clock_skew_anomalies: List[Dict[str, Any]] = field(default_factory=list)
+    unobserved_state_dependencies: List[Dict[str, Any]] = field(default_factory=list)
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "incomplete_spans": self.incomplete_spans,
+            "missing_parents": self.missing_parents,
+            "clock_skew_anomalies": self.clock_skew_anomalies,
+            "unobserved_state_dependencies": self.unobserved_state_dependencies,
+        }
+
+
 class OTelTraceImporter:
     """
     Parses OpenTelemetry JSON and Jaeger trace exports into PHANTOM Trace objects.
-    Extracts distributed service calls, span events, exceptions, and parent-child dependencies.
+    Extracts distributed service calls, span events, exceptions, and parent-child dependencies
+    with semantic mapping for Database, Messaging, HTTP, and RPC conventions.
     """
 
     @staticmethod
-    def from_otel_json(data: Dict[str, Any] | List[Dict[str, Any]] | str | Path) -> Trace:
+    def parse_traceparent(header_val: str) -> Optional[Tuple[str, str]]:
+        """Parse W3C traceparent header (format: 00-{trace_id}-{parent_id}-{flags})."""
+        parts = str(header_val).strip().split("-")
+        if len(parts) >= 3:
+            return parts[1], parts[2]
+        return None
+
+    @classmethod
+    def from_otel_json(
+        cls,
+        data: Dict[str, Any] | List[Dict[str, Any]] | str | Path,
+    ) -> Trace:
         """
         Parse OpenTelemetry trace data from JSON dict, file path, or string.
         Supports standard OTLP JSON (resourceSpans) and Jaeger span list formats.
@@ -34,7 +64,7 @@ class OTelTraceImporter:
         else:
             raw = data
 
-        spans = []
+        spans: List[Dict[str, Any]] = []
         if isinstance(raw, list):
             spans = raw
         elif isinstance(raw, dict):
@@ -47,7 +77,8 @@ class OTelTraceImporter:
                     service_name = "unknown_service"
                     for attr in rs.get("resource", {}).get("attributes", []):
                         if attr.get("key") == "service.name":
-                            service_name = attr.get("value", {}).get("stringValue", "service")
+                            val_dict = attr.get("value", {})
+                            service_name = val_dict.get("stringValue", "service")
                     for ss in rs.get("scopeSpans", []):
                         for sp in ss.get("spans", []):
                             sp["_service_name"] = service_name
@@ -55,26 +86,57 @@ class OTelTraceImporter:
             elif "spans" in raw:
                 spans = raw["spans"]
 
+        diagnostics = OTelDiagnostics()
+
         if not spans:
-            return Trace(events=[], failure_signature="EmptyOTelTrace")
+            return Trace(
+                events=[],
+                failure_signature="EmptyOTelTrace",
+                metadata={"otel_diagnostics": diagnostics.to_dict()},
+            )
 
         events: List[Event] = []
         failure_event_id: Optional[str] = None
         failure_sig = ""
 
-        # Sort spans by startTimeUnixNano if available, or logical index
         def get_start_time(sp: Dict[str, Any]) -> int:
             return int(sp.get("startTimeUnixNano") or sp.get("startTime") or 0)
 
+        def get_end_time(sp: Dict[str, Any]) -> int:
+            return int(sp.get("endTimeUnixNano") or sp.get("endTime") or 0)
+
         sorted_spans = sorted(spans, key=get_start_time)
+        all_span_ids = {str(sp.get("spanId") or sp.get("spanID") or f"span_{i}") for i, sp in enumerate(sorted_spans, 1)}
 
         span_id_to_event: Dict[str, str] = {}
+        span_id_to_start_time: Dict[str, int] = {}
         node_vcs: Dict[str, VectorClock] = {}
 
         for idx, sp in enumerate(sorted_spans, 1):
             span_id = str(sp.get("spanId") or sp.get("spanID") or f"span_{idx}")
             parent_id = str(sp.get("parentSpanId") or sp.get("parentSpanID") or "")
             name = sp.get("name") or sp.get("operationName") or "operation"
+            start_t = get_start_time(sp)
+            end_t = get_end_time(sp)
+            span_id_to_start_time[span_id] = start_t
+
+            # Check for incomplete span
+            if end_t != 0 and end_t < start_t:
+                diagnostics.incomplete_spans.append({"span_id": span_id, "start": start_t, "end": end_t})
+
+            # Check for missing parent span
+            if parent_id and parent_id not in all_span_ids:
+                diagnostics.missing_parents.append({"span_id": span_id, "parent_id": parent_id})
+
+            # Check for clock skew anomalies
+            if parent_id and parent_id in span_id_to_start_time:
+                parent_start = span_id_to_start_time[parent_id]
+                if start_t < parent_start:
+                    diagnostics.clock_skew_anomalies.append({
+                        "span_id": span_id,
+                        "parent_id": parent_id,
+                        "skew_nanos": parent_start - start_t,
+                    })
 
             # Resolve service / node
             node = sp.get("_service_name") or sp.get("process", {}).get("serviceName") or "service_node"
@@ -83,7 +145,7 @@ class OTelTraceImporter:
                     node = tag.get("value")
 
             # Extract attributes
-            attributes = {}
+            attributes: Dict[str, Any] = {}
             for tag in sp.get("tags", []):
                 attributes[tag.get("key")] = tag.get("value")
             for attr in sp.get("attributes", []):
@@ -94,10 +156,38 @@ class OTelTraceImporter:
                 else:
                     attributes[key] = val
 
-            # Determine EventType
+            # Check W3C context propagation
+            if "traceparent" in attributes:
+                parsed = cls.parse_traceparent(attributes["traceparent"])
+                if parsed:
+                    _, tp_parent = parsed
+                    if not parent_id:
+                        parent_id = tp_parent
+
+            # Semantic mapping for EventType
             event_type = EventType.INTERNAL
             kind = sp.get("kind", 0)  # 1=INTERNAL, 2=SERVER, 3=CLIENT, 4=PRODUCER, 5=CONSUMER
-            if kind in {3, 4} or "send" in name.lower():
+
+            # Database semantics
+            db_system = attributes.get("db.system")
+            db_op = str(attributes.get("db.operation", "")).upper()
+            db_statement = str(attributes.get("db.statement", "")).upper()
+
+            # Messaging semantics
+            msg_system = attributes.get("messaging.system")
+            msg_op = str(attributes.get("messaging.operation", "")).lower()
+
+            if db_system or "db" in attributes:
+                if any(op in db_op or op in db_statement for op in ["SELECT", "GET", "FIND", "READ"]):
+                    event_type = EventType.READ
+                elif any(op in db_op or op in db_statement for op in ["INSERT", "UPDATE", "SET", "DELETE", "WRITE"]):
+                    event_type = EventType.WRITE
+            elif msg_system or "messaging" in attributes:
+                if kind in {3, 4} or msg_op in {"publish", "send", "produce"}:
+                    event_type = EventType.SEND
+                elif kind in {2, 5} or msg_op in {"receive", "process", "consume"}:
+                    event_type = EventType.RECEIVE
+            elif kind in {3, 4} or "send" in name.lower():
                 event_type = EventType.SEND
             elif kind in {2, 5} or "recv" in name.lower() or "receive" in name.lower():
                 event_type = EventType.RECEIVE
@@ -122,6 +212,29 @@ class OTelTraceImporter:
             payload = dict(attributes)
             payload["operation"] = name
             payload["span_id"] = span_id
+
+            # Extract state key and store if state operation
+            if event_type in {EventType.READ, EventType.WRITE}:
+                state_key = (
+                    attributes.get("db.sql.table")
+                    or attributes.get("db.name")
+                    or attributes.get("key")
+                    or attributes.get("state_key")
+                    or name
+                )
+                payload["key"] = str(state_key)
+                if attributes.get("db.name"):
+                    payload["store"] = attributes["db.name"]
+
+            # Extract message ID if messaging operation
+            if event_type in {EventType.SEND, EventType.RECEIVE}:
+                msg_id = (
+                    attributes.get("messaging.message_id")
+                    or attributes.get("messaging.conversation_id")
+                    or attributes.get("msg_id")
+                    or span_id
+                )
+                payload["msg_id"] = str(msg_id)
 
             clean_span = span_id.lstrip("0") or span_id
             evt_id = f"evt_{clean_span}" if len(clean_span) <= 16 else f"evt_{clean_span[-8:]}"
@@ -164,7 +277,11 @@ class OTelTraceImporter:
             events=events,
             failure_event_id=failure_event_id,
             failure_signature=failure_sig or "OTelReportedFailure",
-            metadata={"source": "OpenTelemetry_Importer", "raw_spans_count": len(spans)},
+            metadata={
+                "source": "OpenTelemetry_Importer",
+                "raw_spans_count": len(spans),
+                "otel_diagnostics": diagnostics.to_dict(),
+            },
         )
 
     @staticmethod

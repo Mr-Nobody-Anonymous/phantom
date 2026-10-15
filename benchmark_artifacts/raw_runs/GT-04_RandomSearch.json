@@ -1,0 +1,780 @@
+{
+  "case_id": "GT-04",
+  "case_name": "Consumer Rebalance Duplicate Message Execution",
+  "category": "Ground Truth",
+  "algorithm": "RandomSearch",
+  "input_trace_size": 8,
+  "input_trace_hash": "",
+  "failure_signature": "ConsumerRebalanceDuplicateExecution",
+  "executions_count": 150,
+  "minimized_event_count": 3,
+  "reduction_ratio": 0.625,
+  "reproduction_rate": 1.0,
+  "confidence_score": 0.0,
+  "minimality_level": "1-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.03123079997021705,
+  "retained_event_ids": [
+    "assert_duplicate_charge",
+    "c1_charge",
+    "c2_charge"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 3,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 4,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 5,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 6,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 7,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 8,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 9,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 10,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 11,
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 12,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 13,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 14,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 15,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 16,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 17,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 18,
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 19,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 20,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 21,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 22,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 23,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 24,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 25,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 26,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 27,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 28,
+      "size": 7,
+      "verdict": "PASS"
+    },
+    {
+      "step": 29,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 30,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 31,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 32,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 33,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 34,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 35,
+      "size": 7,
+      "verdict": "PASS"
+    },
+    {
+      "step": 36,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 37,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 38,
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 39,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 40,
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 41,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 42,
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 43,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 44,
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 45,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 46,
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 47,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 48,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 49,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 50,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 51,
+      "size": 7,
+      "verdict": "PASS"
+    },
+    {
+      "step": 52,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 53,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 54,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 55,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 56,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 57,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 58,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 59,
+      "size": 7,
+      "verdict": "PASS"
+    },
+    {
+      "step": 60,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 61,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 62,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 63,
+      "size": 7,
+      "verdict": "PASS"
+    },
+    {
+      "step": 64,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 65,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 66,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 67,
+      "size": 7,
+      "verdict": "PASS"
+    },
+    {
+      "step": 68,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 69,
+      "size": 7,
+      "verdict": "PASS"
+    },
+    {
+      "step": 70,
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 71,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 72,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 73,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 74,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 75,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 76,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 77,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 78,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 79,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 80,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 81,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 82,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 83,
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 84,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 85,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 86,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 87,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 88,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 89,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 90,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 91,
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 92,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 93,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 94,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 95,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 96,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 97,
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 98,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 99,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 100,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 101,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 102,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 103,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 104,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 105,
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 106,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 107,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 108,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 109,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 110,
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 111,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 112,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 113,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 114,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 115,
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 116,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 117,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 118,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 119,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 120,
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 121,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 122,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 123,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 124,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 125,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 126,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 127,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 128,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 129,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 130,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 131,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 132,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 133,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 134,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 135,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 136,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 137,
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 138,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 139,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 140,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 141,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 142,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 143,
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 144,
+      "size": 2,
+      "verdict": "PASS"
+    },
+    {
+      "step": 145,
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 146,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 147,
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 148,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 149,
+      "size": 7,
+      "verdict": "PASS"
+    },
+    {
+      "step": 150,
+      "size": 2,
+      "verdict": "PASS"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086055.7756016
+  }
+}

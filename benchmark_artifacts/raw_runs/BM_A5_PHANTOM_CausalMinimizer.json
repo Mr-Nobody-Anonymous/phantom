@@ -1,0 +1,128 @@
+{
+  "case_id": "BM_A5",
+  "case_name": "DeadlockCircularWaitAnomaly",
+  "category": "Benchmark A",
+  "algorithm": "PHANTOM_CausalMinimizer",
+  "input_trace_size": 8,
+  "input_trace_hash": "919d1afe5897ba6064c61e6ed3f7cd0691695f592737b377e79acbb4a4cc92d2",
+  "failure_signature": "DeadlockCircularWaitAnomaly",
+  "executions_count": 24,
+  "minimized_event_count": 5,
+  "reduction_ratio": 0.375,
+  "reproduction_rate": 1.0,
+  "confidence_score": 1.0,
+  "minimality_level": "GLOBALLY-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.004876699997112155,
+  "retained_event_ids": [
+    "assert_no_deadlock",
+    "w1_lock_a",
+    "w1_req_b",
+    "w2_lock_b",
+    "w2_req_a"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "phase": "initial_validation",
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "phase": "causal_slicing",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 3,
+      "phase": "topological_pruning",
+      "pruned_block_size": 2,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 4,
+      "phase": "topological_pruning",
+      "pruned_block_size": 2,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 5,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 6,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 7,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 8,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 9,
+      "phase": "necessity_ledger",
+      "tested_event": "w1_lock_a",
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 10,
+      "phase": "necessity_ledger",
+      "tested_event": "w1_req_b",
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 11,
+      "phase": "necessity_ledger",
+      "tested_event": "bg_lock_stat",
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 12,
+      "phase": "necessity_ledger",
+      "tested_event": "bg_audit",
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 13,
+      "phase": "necessity_ledger",
+      "tested_event": "w2_lock_b",
+      "size": 4,
+      "verdict": "PASS"
+    },
+    {
+      "step": 14,
+      "phase": "necessity_ledger",
+      "tested_event": "w2_req_a",
+      "size": 4,
+      "verdict": "PASS"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086049.10283
+  }
+}

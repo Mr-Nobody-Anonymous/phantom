@@ -1,0 +1,83 @@
+{
+  "case_id": "BM_C5",
+  "case_name": "KafkaConsumerOffsetRewind",
+  "category": "Benchmark C",
+  "algorithm": "PHANTOM_CausalMinimizer",
+  "input_trace_size": 8,
+  "input_trace_hash": "b18da1f3fd2c94b1c631e939aa6315b95c008bd4ed6dbb5b9f7aa4745b978668",
+  "failure_signature": "KafkaOffsetRewindDuplicateAnomaly",
+  "executions_count": 8,
+  "minimized_event_count": 2,
+  "reduction_ratio": 0.75,
+  "reproduction_rate": 1.0,
+  "confidence_score": 1.0,
+  "minimality_level": "GLOBALLY-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.008450200082734227,
+  "retained_event_ids": [
+    "assert_exactly_once",
+    "consumer_re_execute"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "phase": "initial_validation",
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "phase": "causal_slicing",
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 3,
+      "phase": "fault_necessity_test",
+      "tested_fault": "fault_crash_consumer",
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 4,
+      "phase": "fault_necessity_test",
+      "tested_fault": "fault_restart_consumer",
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 5,
+      "phase": "necessity_ledger",
+      "tested_event": "consumer_rewind_read",
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 6,
+      "phase": "necessity_ledger",
+      "tested_event": "consumer_re_execute",
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 7,
+      "phase": "necessity_ledger",
+      "tested_event": "consumer_read_msg",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 8,
+      "phase": "necessity_ledger",
+      "tested_event": "consumer_exec_charge",
+      "size": 2,
+      "verdict": "REPRODUCED"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086053.828171
+  }
+}

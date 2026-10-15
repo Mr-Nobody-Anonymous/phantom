@@ -1,0 +1,99 @@
+{
+  "case_id": "GT-04",
+  "case_name": "Consumer Rebalance Duplicate Message Execution",
+  "category": "Ground Truth",
+  "algorithm": "PHANTOM_CausalMinimizer",
+  "input_trace_size": 8,
+  "input_trace_hash": "5a84432c28cd4580ad1701fec1d5190ba19b9720ed0e8e70702812db2939f3ec",
+  "failure_signature": "ConsumerRebalanceDuplicateExecution",
+  "executions_count": 10,
+  "minimized_event_count": 3,
+  "reduction_ratio": 0.625,
+  "reproduction_rate": 1.0,
+  "confidence_score": 1.0,
+  "minimality_level": "GLOBALLY-MINIMAL",
+  "termination_reason": "CONVERGED",
+  "wall_clock_seconds": 0.008706299937330186,
+  "retained_event_ids": [
+    "assert_duplicate_charge",
+    "c1_charge",
+    "c2_charge"
+  ],
+  "search_history": [
+    {
+      "step": 1,
+      "phase": "initial_validation",
+      "size": 8,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 2,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 7,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 3,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 6,
+      "verdict": "PASS"
+    },
+    {
+      "step": 4,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 6,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 5,
+      "phase": "topological_pruning",
+      "pruned_block_size": 1,
+      "size": 5,
+      "verdict": "PASS"
+    },
+    {
+      "step": 6,
+      "phase": "necessity_ledger",
+      "tested_event": "c2_reassigned",
+      "size": 5,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 7,
+      "phase": "necessity_ledger",
+      "tested_event": "fault_rebalance",
+      "size": 4,
+      "verdict": "REPRODUCED"
+    },
+    {
+      "step": 8,
+      "phase": "necessity_ledger",
+      "tested_event": "c2_charge",
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 9,
+      "phase": "necessity_ledger",
+      "tested_event": "c1_charge",
+      "size": 3,
+      "verdict": "PASS"
+    },
+    {
+      "step": 10,
+      "phase": "necessity_ledger",
+      "tested_event": "c2_recv",
+      "size": 3,
+      "verdict": "REPRODUCED"
+    }
+  ],
+  "environment": {
+    "python_version": "3.10.11",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "system": "Windows",
+    "timestamp": 1792086055.3972301
+  }
+}
