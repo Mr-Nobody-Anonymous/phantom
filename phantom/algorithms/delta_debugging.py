@@ -146,4 +146,5 @@ class DeltaDebuggingMinimizer(BaseMinimizer):
             minimized_trace=minimized_trace,
             retained_event_ids=sorted(list(final_subset)),
             search_history=history,
+            initial_state=dict(scheduler.initial_state),
         )

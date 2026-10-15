@@ -94,16 +94,62 @@ class CausalGraph:
                             edge_type="data_flow",
                         )
 
-        # 5. Connect failure event to latest preceding events across nodes
+        # 5. Vector clock partial order (Fidge-Mattern / Lamport)
+        events_with_vc = [e for e in self.trace.events if e.vector_clock and e.vector_clock.clock]
+        for i in range(len(events_with_vc)):
+            e1 = events_with_vc[i]
+            for j in range(i + 1, len(events_with_vc)):
+                e2 = events_with_vc[j]
+                if e1.vector_clock.happens_before(e2.vector_clock):
+                    if not self.graph.has_edge(e1.event_id, e2.event_id):
+                        self.graph.add_edge(e1.event_id, e2.event_id, edge_type="vector_clock")
+                elif e2.vector_clock.happens_before(e1.vector_clock):
+                    if not self.graph.has_edge(e2.event_id, e1.event_id):
+                        self.graph.add_edge(e2.event_id, e1.event_id, edge_type="vector_clock")
+
+        # 6. Connect failure event to latest preceding events across nodes
         if self.trace.failure_event_id and self.graph.has_node(self.trace.failure_event_id):
             fail_evt = self.trace.get_event(self.trace.failure_event_id)
-            if fail_evt and not self.graph.in_degree(self.trace.failure_event_id):
-                # Assertion checks state produced by previous events
+            if fail_evt and self.graph.in_degree(self.trace.failure_event_id) == 0:
+                # Connect to preceding events on the same node
                 for prev in self.trace.events:
                     if prev.event_id == fail_evt.event_id:
                         break
                     if prev.node == fail_evt.node:
                         self.graph.add_edge(prev.event_id, fail_evt.event_id, edge_type="assertion_dep")
+                # If still 0 in-degree, connect to preceding state writes or faults
+                if self.graph.in_degree(self.trace.failure_event_id) == 0:
+                    for prev in self.trace.events:
+                        if prev.event_id == fail_evt.event_id:
+                            break
+                        if prev.is_state_access() or prev.is_fault():
+                            self.graph.add_edge(prev.event_id, fail_evt.event_id, edge_type="assertion_dep")
+
+        # 7. Cycle resolution: ensure graph is a strict DAG even if clocks were skewed or corrupt
+        if not nx.is_directed_acyclic_graph(self.graph):
+            self._resolve_cycles_heuristically()
+
+    def _resolve_cycles_heuristically(self) -> None:
+        """Break cycles introduced by clock skew or corrupt logs to maintain DAG property."""
+        trace_order = {e.event_id: i for i, e in enumerate(self.trace.events)}
+        try:
+            while not nx.is_directed_acyclic_graph(self.graph):
+                cycle = nx.find_cycle(self.graph, orientation="original")
+                worst_edge = None
+                worst_diff = -float("inf")
+                for u, v, _ in cycle:
+                    diff = trace_order.get(u, 0) - trace_order.get(v, 0)
+                    if diff > worst_diff:
+                        worst_diff = diff
+                        worst_edge = (u, v)
+                if worst_edge and self.graph.has_edge(*worst_edge):
+                    self.graph.remove_edge(*worst_edge)
+                else:
+                    # Break first edge in cycle if heuristic didn't find one
+                    u, v, _ = cycle[0]
+                    self.graph.remove_edge(u, v)
+        except Exception:
+            pass
 
     def causal_cone(self, target_event_id: str) -> Set[str]:
         """
@@ -191,8 +237,16 @@ class CausalGraph:
         try:
             return list(nx.topological_sort(subgraph))
         except nx.NetworkXUnfeasible:
-            # Handle cycle fallback gracefully (should not happen in DAG)
-            return list(subgraph.nodes())
+            # Fallback to logical time and trace index if subgraph has cycles
+            nodes = list(subgraph.nodes())
+            trace_indices = {e.event_id: idx for idx, e in enumerate(self.trace.events)}
+            return sorted(
+                nodes,
+                key=lambda nid: (
+                    subgraph.nodes[nid].get("logical_time", 0) if "logical_time" in subgraph.nodes[nid] else 0,
+                    trace_indices.get(nid, 0),
+                ),
+            )
 
     def critical_path_to_failure(self) -> List[str]:
         """Compute the longest causal path ending at failure_event_id."""
@@ -203,7 +257,14 @@ class CausalGraph:
         try:
             return nx.dag_longest_path(sub)
         except Exception:
-            return list(cone)
+            trace_indices = {e.event_id: idx for idx, e in enumerate(self.trace.events)}
+            return sorted(
+                list(cone),
+                key=lambda nid: (
+                    self.graph.nodes[nid].get("logical_time", 0) if self.graph.has_node(nid) else 0,
+                    trace_indices.get(nid, 0),
+                ),
+            )
 
     def stats(self) -> Dict[str, Any]:
         return {

@@ -14,6 +14,7 @@ from rich.panel import Panel
 from rich.table import Table
 
 from phantom.algorithms.causal_minimizer import PhantomCausalMinimizer
+from phantom.algorithms.feedback_search import FeedbackGuidedSearchMinimizer
 from phantom.algorithms.delta_debugging import DeltaDebuggingMinimizer
 from phantom.algorithms.random_search import RandomSearchMinimizer
 from phantom.benchmarks.benchmark_a import get_benchmark_a_cases
@@ -22,6 +23,7 @@ from phantom.benchmarks.benchmark_c import get_benchmark_c_cases
 from phantom.benchmarks.runner import BenchmarkRunner
 from phantom.core.graph import CausalGraph
 from phantom.core.oracle import FailureOracle
+from phantom.core.otel import OTelTraceImporter
 from phantom.core.scheduler import EventScheduler
 from phantom.core.trace import Trace
 from phantom.report.reporter import IncidentReporter
@@ -41,8 +43,9 @@ def main():
 @main.command("benchmark")
 @click.option("--output-dir", "-o", default="benchmark_artifacts", help="Directory for benchmark artifacts.")
 @click.option("--group", "-g", type=click.Choice(["a", "b", "c", "all"]), default="all", help="Benchmark group to run.")
+@click.option("--algo", "-a", type=click.Choice(["phantom", "feedback", "ddmin", "random", "all"]), default="all", help="Algorithm to evaluate.")
 @click.option("--plot/--no-plot", default=True, help="Generate comparison charts.")
-def benchmark_cmd(output_dir: str, group: str, plot: bool):
+def benchmark_cmd(output_dir: str, group: str, algo: str, plot: bool):
     """Run the empirical comparative evaluation suite."""
     runner = BenchmarkRunner(output_dir=output_dir)
 
@@ -54,7 +57,17 @@ def benchmark_cmd(output_dir: str, group: str, plot: bool):
     if group in ["c", "all"]:
         cases.extend(get_benchmark_c_cases())
 
-    records = runner.run_suite(cases=cases, verbose=True)
+    algorithms = None
+    if algo == "phantom":
+        algorithms = [PhantomCausalMinimizer(max_executions=150)]
+    elif algo == "feedback":
+        algorithms = [FeedbackGuidedSearchMinimizer(max_executions=150)]
+    elif algo == "ddmin":
+        algorithms = [DeltaDebuggingMinimizer(max_executions=150)]
+    elif algo == "random":
+        algorithms = [RandomSearchMinimizer(max_executions=150)]
+
+    records = runner.run_suite(cases=cases, algorithms=algorithms, verbose=True)
 
     if plot:
         chart_file = runner.generate_plots(records)
@@ -62,6 +75,21 @@ def benchmark_cmd(output_dir: str, group: str, plot: bool):
 
     console.print(f"[bold green][+][/bold green] Raw metrics saved to: [cyan]{output_dir}/benchmark_results.json[/cyan]")
     console.print(f"[bold green][+][/bold green] CSV summary saved to: [cyan]{output_dir}/benchmark_summary.csv[/cyan]")
+
+
+@main.command("import-otel")
+@click.argument("otel_path", type=click.Path(exists=True))
+@click.option("--output", "-o", default="imported_trace.json", help="Path to save imported PHANTOM trace JSON.")
+def import_otel_cmd(otel_path: str, output: str):
+    """Import an OpenTelemetry or Jaeger trace JSON into a PHANTOM Trace."""
+    console.print(f"[bold]Importing OpenTelemetry spans from [cyan]{otel_path}[/cyan]...[/bold]")
+    trace = OTelTraceImporter.from_otel_json(otel_path)
+    trace.save(output)
+    console.print(f"[bold green][+][/bold green] Successfully converted [yellow]{len(trace.events)} events[/yellow] into [cyan]{output}[/cyan]")
+    if trace.failure_event_id:
+        console.print(f"  Detected failure event: [red]{trace.failure_event_id}[/red] ({trace.failure_signature})")
+    else:
+        console.print(f"  [yellow]Notice:[/yellow] No explicit span exception or error status detected in input.")
 
 
 @main.command("info")

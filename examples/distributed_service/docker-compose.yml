@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  jaeger:
+    image: jaegertracing/all-in-one:1.50
+    ports:
+      - "16686:16686" # Jaeger Web UI
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP HTTP receiver
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+
+  order-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.order
+    ports:
+      - "8081:8081"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318
+      - PAYMENT_SERVICE_URL=http://payment-service:8082
+    depends_on:
+      - jaeger
+
+  payment-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.payment
+    ports:
+      - "8082:8082"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318
+    depends_on:
+      - jaeger

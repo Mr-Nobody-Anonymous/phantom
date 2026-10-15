@@ -15,6 +15,7 @@ from rich.table import Table
 
 from phantom.algorithms.base import MinimizerResult
 from phantom.algorithms.causal_minimizer import PhantomCausalMinimizer
+from phantom.algorithms.feedback_search import FeedbackGuidedSearchMinimizer
 from phantom.algorithms.delta_debugging import DeltaDebuggingMinimizer
 from phantom.algorithms.random_search import RandomSearchMinimizer
 from phantom.benchmarks.base import BenchmarkCase
@@ -54,6 +55,7 @@ class BenchmarkRunner:
         if algorithms is None:
             algorithms = [
                 PhantomCausalMinimizer(max_executions=150),
+                FeedbackGuidedSearchMinimizer(max_executions=150),
                 DeltaDebuggingMinimizer(max_executions=150),
                 RandomSearchMinimizer(max_executions=150),
             ]
@@ -163,11 +165,12 @@ class BenchmarkRunner:
         avg_reduction = [sum(g["reduction_pct"] for g in groups[a]) / len(groups[a]) for a in algorithms]
         avg_stability = [(sum(g["stability"] for g in groups[a]) / len(groups[a])) * 100 for a in algorithms]
 
-        fig, axes = plt.subplots(1, 3, figsize=(15, 4.5))
-        colors = ["#2b5c8f", "#d95f02", "#7570b3"]
+        fig, axes = plt.subplots(1, 3, figsize=(16, 5))
+        colors = ["#2b5c8f", "#008080", "#d95f02", "#7570b3"]
 
         labels = [
             a.replace("PHANTOM_CausalMinimizer", "PHANTOM\n(Causal)")
+             .replace("PHANTOM_FeedbackGuidedSearch", "PHANTOM\n(Feedback)")
              .replace("DeltaDebugging_ddmin", "Delta Debugging\n(ddmin)")
              .replace("RandomSearch", "Random\nSearch")
             for a in algorithms

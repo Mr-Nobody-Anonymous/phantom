@@ -31,6 +31,7 @@ class MinimizerResult:
     irrelevant_events: List[str] = field(default_factory=list)
     confidence_score: float = 0.0
     search_history: List[Dict[str, Any]] = field(default_factory=list)
+    initial_state: Dict[str, Any] = field(default_factory=dict)
 
     def summary(self) -> Dict[str, Any]:
         return {

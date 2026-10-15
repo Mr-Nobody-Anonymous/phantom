@@ -5,6 +5,7 @@ from phantom.core.trace import Trace
 from phantom.core.graph import CausalGraph
 from phantom.core.oracle import FailureOracle, OracleResult, OracleVerdict
 from phantom.core.scheduler import EventScheduler, SimulationState
+from phantom.core.otel import OTelTraceImporter
 
 __all__ = [
     "Event",
@@ -17,4 +18,5 @@ __all__ = [
     "OracleVerdict",
     "EventScheduler",
     "SimulationState",
+    "OTelTraceImporter",
 ]

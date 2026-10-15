@@ -260,6 +260,118 @@ def create_lost_update_counter_case() -> BenchmarkCase:
     )
 
 
+def create_deadlock_circular_wait_case() -> BenchmarkCase:
+    """
+    Case A5: Distributed lock circular wait deadlock.
+    Worker 1 acquires Lock A, Worker 2 acquires Lock B.
+    Worker 1 blocks waiting on Lock B, Worker 2 blocks waiting on Lock A.
+    """
+    events = [
+        Event("bg_lock_stat", EventType.INTERNAL, "lock-monitor", {"action": "heartbeat"}, logical_time=1),
+        Event("w1_lock_a", EventType.WRITE, "worker-1", {"key": "lock_res_A", "val": "worker_1"}, logical_time=2),
+        Event("w2_lock_b", EventType.WRITE, "worker-2", {"key": "lock_res_B", "val": "worker_2"}, logical_time=3),
+        Event("bg_gc", EventType.INTERNAL, "lock-mgr", {"action": "clean_leases"}, logical_time=4),
+        Event("w1_req_b", EventType.WRITE, "worker-1", {"key": "lock_wait_w1_B", "val": True}, logical_time=5),
+        Event("w2_req_a", EventType.WRITE, "worker-2", {"key": "lock_wait_w2_A", "val": True}, logical_time=6),
+        Event("bg_audit", EventType.INTERNAL, "lock-monitor", {"action": "metrics"}, logical_time=7),
+        Event(
+            "assert_no_deadlock",
+            EventType.ASSERTION,
+            "lock-monitor",
+            {"name": "NoDeadlockInvariant", "expected": False, "actual": True, "signature": "DeadlockCircularWaitAnomaly"},
+            logical_time=8,
+            depends_on={"w1_req_b", "w2_req_a"},
+        ),
+    ]
+
+    trace = Trace(
+        events=events,
+        failure_event_id="assert_no_deadlock",
+        failure_signature="DeadlockCircularWaitAnomaly",
+        metadata={"description": "Concurrent lock acquisitions form circular dependency deadlock"},
+    )
+
+    oracle = FailureOracle(expected_signature="DeadlockCircularWaitAnomaly")
+    oracle.register_invariant(
+        "DeadlockCircularWaitAnomaly",
+        lambda state: not (
+            state.get("kv_store", {}).get("lock_res_A") == "worker_1"
+            and state.get("kv_store", {}).get("lock_res_B") == "worker_2"
+            and state.get("kv_store", {}).get("lock_wait_w1_B") is True
+            and state.get("kv_store", {}).get("lock_wait_w2_A") is True
+        ),
+    )
+
+    scheduler = EventScheduler(initial_state={"kv_store": {}})
+    ground_truth = {"w1_lock_a", "w2_lock_b", "w1_req_b", "w2_req_a", "assert_no_deadlock"}
+
+    return BenchmarkCase(
+        case_id="BM_A5",
+        category="Benchmark A",
+        name="DeadlockCircularWaitAnomaly",
+        description="Circular lock wait dependency deadlocks concurrent distributed workers",
+        trace=trace,
+        oracle=oracle,
+        scheduler=scheduler,
+        ground_truth_minimal_events=ground_truth,
+    )
+
+
+def create_bank_transfer_race_case() -> BenchmarkCase:
+    """
+    Case A6: Non-atomic multi-account transfer balance leak.
+    Account A=100, Account B=50 (Total 150).
+    Worker 1 debits 40 from A (A=60) and credits 40 to B.
+    Worker 2 concurrently overwrites B without reading the pending credit (B=70 instead of 130).
+    Total balance becomes 130 instead of 150, violating conservation of funds.
+    """
+    events = [
+        Event("bg_log_start", EventType.INTERNAL, "ledger-svc", {"action": "session_init"}, logical_time=1),
+        Event("w1_read_a", EventType.READ, "worker-1", {"key": "acc_A_bal", "val": 100}, logical_time=2),
+        Event("w1_debit_a", EventType.WRITE, "worker-1", {"key": "acc_A_bal", "val": 60}, logical_time=3),
+        Event("bg_telem", EventType.INTERNAL, "telemetry", {"action": "flush"}, logical_time=4),
+        Event("w2_read_b", EventType.READ, "worker-2", {"key": "acc_B_bal", "val": 50}, logical_time=5),
+        Event("w2_credit_b", EventType.WRITE, "worker-2", {"key": "acc_B_bal", "val": 70}, logical_time=6),
+        Event(
+            "assert_balance_conservation",
+            EventType.ASSERTION,
+            "auditor",
+            {"name": "TotalBalanceConservation", "expected": 150, "actual": 130, "signature": "BalanceConservationAnomaly"},
+            logical_time=7,
+            depends_on={"w1_debit_a", "w2_credit_b"},
+        ),
+    ]
+
+    trace = Trace(
+        events=events,
+        failure_event_id="assert_balance_conservation",
+        failure_signature="BalanceConservationAnomaly",
+        metadata={"description": "Concurrent debit and credit collisions leak money"},
+    )
+
+    oracle = FailureOracle(expected_signature="BalanceConservationAnomaly")
+    oracle.register_invariant(
+        "BalanceConservationAnomaly",
+        lambda state: (
+            state.get("kv_store", {}).get("acc_A_bal", 100) + state.get("kv_store", {}).get("acc_B_bal", 50)
+        ) == 150,
+    )
+
+    scheduler = EventScheduler(initial_state={"kv_store": {"acc_A_bal": 100, "acc_B_bal": 50}})
+    ground_truth = {"w1_debit_a", "w2_credit_b", "assert_balance_conservation"}
+
+    return BenchmarkCase(
+        case_id="BM_A6",
+        category="Benchmark A",
+        name="BalanceConservationAnomaly",
+        description="Uncoordinated transfer updates violate total balance conservation invariant",
+        trace=trace,
+        oracle=oracle,
+        scheduler=scheduler,
+        ground_truth_minimal_events=ground_truth,
+    )
+
+
 def get_benchmark_a_cases() -> List[BenchmarkCase]:
     """Retrieve all Benchmark A cases."""
     return [
@@ -267,4 +379,6 @@ def get_benchmark_a_cases() -> List[BenchmarkCase]:
         create_double_spend_case(),
         create_stale_cache_read_case(),
         create_lost_update_counter_case(),
+        create_deadlock_circular_wait_case(),
+        create_bank_transfer_race_case(),
     ]

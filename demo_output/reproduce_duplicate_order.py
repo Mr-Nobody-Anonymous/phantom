@@ -21,9 +21,14 @@ def replay_minimal_schedule():
     print("Target Signature: DuplicateOrderProcessing")
     print("=" * 70)
 
-    kv_store = {}
-    messages = {}
-    dropped = set()
+    # Initial environment state
+    kv_store = {
+    "ord_99_status": "pending"
+}
+    node_status = {}       # node -> "UP" | "CRASHED"
+    message_buffer = {}    # msg_id -> {source, target, payload}
+    dropped_messages = set()
+    executed_events = set()
     errors = []
     logs = []
 
@@ -33,6 +38,7 @@ def replay_minimal_schedule():
         "id": 'evt_commit_b',
         "type": 'WRITE',
         "node": 'payment-svc',
+        "target": None,
         "payload": {'key': 'ord_99_charged', 'val': True, 'by': 'req_b'},
     })
 
@@ -41,6 +47,7 @@ def replay_minimal_schedule():
         "id": 'evt_commit_a',
         "type": 'WRITE',
         "node": 'payment-svc',
+        "target": None,
         "payload": {'key': 'ord_99_charged_dup', 'val': True, 'by': 'req_a'},
     })
 
@@ -49,6 +56,7 @@ def replay_minimal_schedule():
         "id": 'evt_assert_dup',
         "type": 'ASSERTION',
         "node": 'order-svc',
+        "target": None,
         "payload": {'name': 'NoDuplicateProcessing', 'expected': False, 'actual': True, 'signature': 'DuplicateOrderProcessing'},
     })
 
@@ -58,53 +66,149 @@ def replay_minimal_schedule():
         eid = step["id"]
         etype = step["type"]
         node = step["node"]
+        target = step.get("target") or step["payload"].get("target")
         payload = step["payload"]
 
+        # If node is crashed and event is not FAULT_RESTART, skip execution
+        if node_status.get(node, "UP") == "CRASHED" and etype != "FAULT_RESTART":
+            logs.append(f"[{node}] skipped {etype} ({eid}) - node is CRASHED")
+            print(f"  - [{node}] skipped {etype} (node is CRASHED)")
+            continue
+
+        executed_events.add(eid)
         logs.append(f"[{node}] {etype} ({eid})")
 
         if etype == "WRITE":
             key = payload.get("key") or payload.get("state_key")
-            val = payload.get("val") or payload.get("value")
+            val = payload.get("val") if "val" in payload else payload.get("value")
             if key is not None:
-                kv_store[key] = val
+                kv_store[str(key)] = val
                 print(f"  * [{node}] WRITE {key} = {val}")
 
         elif etype == "READ":
             key = payload.get("key") or payload.get("state_key")
-            val = kv_store.get(key)
+            val = kv_store.get(str(key))
             print(f"  * [{node}] READ {key} -> {val}")
 
+        elif etype == "SEND":
+            msg_id = payload.get("msg_id") or payload.get("message_id") or eid
+            if msg_id not in dropped_messages:
+                message_buffer[str(msg_id)] = {
+                    "source": node,
+                    "target": target,
+                    "payload": payload,
+                }
+                print(f"  * [{node}] SEND message {msg_id} -> {target}")
+            else:
+                print(f"  * [{node}] SEND message {msg_id} (previously dropped)")
+
+        elif etype == "RECEIVE":
+            msg_id = payload.get("msg_id") or payload.get("message_id")
+            if msg_id and str(msg_id) in dropped_messages:
+                print(f"  ! [{node}] RECEIVE dropped: message {msg_id} did not arrive")
+            elif msg_id and str(msg_id) in message_buffer:
+                msg_data = message_buffer.pop(str(msg_id))
+                print(f"  * [{node}] RECEIVE message {msg_id} from {msg_data['source']}")
+                action = msg_data["payload"].get("action")
+                if action == "charge_order":
+                    order_id = msg_data["payload"].get("order_id", "ord")
+                    key = f"charge_{order_id}_cnt"
+                    kv_store[key] = kv_store.get(key, 0) + 1
+            else:
+                print(f"  * [{node}] RECEIVE {msg_id or eid} (no in-flight buffer)")
+
         elif etype == "FAULT_DROP":
-            msg_id = payload.get("msg_id")
+            msg_id = payload.get("msg_id") or payload.get("message_id")
             if msg_id:
-                dropped.add(msg_id)
+                dropped_messages.add(str(msg_id))
+                message_buffer.pop(str(msg_id), None)
                 print(f"  ! [FAULT] Dropped message: {msg_id}")
 
         elif etype == "FAULT_DELAY":
             dur = payload.get("duration", 1)
-            target = payload.get("target_node", node)
-            print(f"  ! [FAULT] Injected delay: {dur}s on {target}")
+            target_node = payload.get("target_node", node)
+            print(f"  ! [FAULT] Injected delay: {dur}s on {target_node}")
 
         elif etype == "FAULT_CRASH":
-            target = payload.get("target_node", node)
-            print(f"  ! [FAULT] Crash injected on {target}")
+            target_node = payload.get("target_node", node)
+            node_status[target_node] = "CRASHED"
+            print(f"  ! [FAULT] Node {target_node} CRASHED")
+
+        elif etype == "FAULT_RESTART":
+            target_node = payload.get("target_node", node)
+            node_status[target_node] = "UP"
+            print(f"  ! [FAULT] Node {target_node} RESTARTED")
+
+        elif etype == "INTERNAL":
+            action = payload.get("action", "")
+            print(f"  * [{node}] INTERNAL action: {action}")
 
         elif etype == "ASSERTION":
+            assertion_name = payload.get("name") or payload.get("assertion_name") or "Assertion"
             sig = payload.get("signature") or "DuplicateOrderProcessing"
-            errors.append(sig)
-            print(f"  X [ASSERTION VIOLATED] {sig}")
+            key = payload.get("key")
+            
+            # Verify assertion condition against actual kv_store state
+            if key is not None and "expected" in payload:
+                actual = kv_store.get(str(key))
+                if actual != payload["expected"]:
+                    errors.append(sig)
+                    print(f"  X [ASSERTION VIOLATED] {assertion_name}: expected {payload['expected']}, got {actual}")
+                else:
+                    print(f"  [OK] [ASSERTION SATISFIED] {assertion_name}: {key} == {actual}")
+            else:
+                # Invariant evaluated at end of schedule
+                print(f"  ? [ASSERTION CHECK] {assertion_name}")
+
+    # Invariant evaluation: check specific failure signatures
+    if "DuplicateOrderProcessing" == "DuplicateOrderProcessing":
+        if kv_store.get("ord_99_charged") is True and kv_store.get("ord_99_charged_dup") is True:
+            errors.append("DuplicateOrderProcessing")
+    elif "DuplicateOrderProcessing" == "NegativeBalanceDoubleSpend":
+        if kv_store.get("user_bal", 100) < 0:
+            errors.append("NegativeBalanceDoubleSpend")
+    elif "DuplicateOrderProcessing" == "StaleCacheInconsistency":
+        if kv_store.get("db_user_email") == "new@test.com" and kv_store.get("cache_user_email") == "old@test.com":
+            errors.append("StaleCacheInconsistency")
+    elif "DuplicateOrderProcessing" == "LostUpdateCounterAnomaly":
+        if "c1_write" in executed_events and "c2_write" in executed_events and kv_store.get("click_count") == 11:
+            errors.append("LostUpdateCounterAnomaly")
+    elif "DuplicateOrderProcessing" == "RetryStormDuplicateExecution":
+        if kv_store.get("charge_ord_77_cnt", 0) > 1:
+            errors.append("RetryStormDuplicateExecution")
+    elif "DuplicateOrderProcessing" == "SplitBrainDualLeaderAnomaly":
+        if kv_store.get("node_2_role") == "LEADER" and kv_store.get("leader_write_epoch") == "node2_val":
+            errors.append("SplitBrainDualLeaderAnomaly")
+    elif "DuplicateOrderProcessing" == "DroppedAckDesyncAnomaly":
+        if kv_store.get("service_a_order_55") == "CANCELLED" and kv_store.get("service_b_order_55") == "COMMITTED":
+            errors.append("DroppedAckDesyncAnomaly")
+    elif "DuplicateOrderProcessing" == "CrashRestartDurabilityLoss":
+        if kv_store.get("account_balance") == 0 and "fault_crash_db" in executed_events:
+            errors.append("CrashRestartDurabilityLoss")
+    elif "DuplicateOrderProcessing" == "TwoPhaseCommitDesyncAnomaly":
+        if kv_store.get("p1_tx_state") == "ABORTED" and kv_store.get("p2_tx_state") == "COMMITTED":
+            errors.append("TwoPhaseCommitDesyncAnomaly")
+    elif "DuplicateOrderProcessing" == "StaleLeaderLeaseOverwrite":
+        if kv_store.get("lease_holder") == "node_2" and kv_store.get("cluster_config") == "stale_version_1":
+            errors.append("StaleLeaderLeaseOverwrite")
+    elif "DuplicateOrderProcessing" == "SagaCompensationReorderGhostBilling":
+        if kv_store.get("tx_9_cancel_status") == "REJECTED_UNKNOWN_TX" and kv_store.get("tx_9_billed") is True:
+            errors.append("SagaCompensationReorderGhostBilling")
 
     # Evaluate outcome
     print("-" * 70)
-    if errors or "DuplicateOrderProcessing" in errors:
+    matching_error = any("DuplicateOrderProcessing".lower() in err.lower() or err.lower() in "DuplicateOrderProcessing".lower() for err in errors)
+    if matching_error or errors:
         print(f"RESULT: SUCCESSFUL DETERMINISTIC REPRODUCTION!")
-        print(f"Observed Violation: {errors or ['DuplicateOrderProcessing']}")
+        print(f"Observed Violation: {errors}")
         print("Final State:")
         print(json.dumps(kv_store, indent=2))
         print("=" * 70)
         return True
     else:
         print("RESULT: FAILED TO REPRODUCE (Invariant held)")
+        print("Final State:")
+        print(json.dumps(kv_store, indent=2))
         print("=" * 70)
         return False
 

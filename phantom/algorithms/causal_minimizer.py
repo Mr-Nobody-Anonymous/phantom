@@ -207,4 +207,5 @@ class PhantomCausalMinimizer(BaseMinimizer):
             irrelevant_events=irrelevant_events,
             confidence_score=confidence,
             search_history=history,
+            initial_state=dict(scheduler.initial_state),
         )

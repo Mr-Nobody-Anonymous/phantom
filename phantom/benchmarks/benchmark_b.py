@@ -245,6 +245,120 @@ def create_crash_restart_state_loss_case() -> BenchmarkCase:
     )
 
 
+def create_partition_healing_desync_case() -> BenchmarkCase:
+    """
+    Case B5: Uncoordinated partition healing state reconciliation desync.
+    Partition isolates Region A and Region B.
+    Region A writes config='v1_alpha'.
+    Region B writes config='v2_beta'.
+    Partition heals, but without conflict resolution, divergence persists.
+    """
+    events = [
+        Event("bg_sync_poll", EventType.INTERNAL, "config-monitor", {"action": "poll"}, logical_time=1),
+        Event("fault_isolate_ab", EventType.FAULT_DROP, "network", {"msg_id": "repl_sync_msg"}, logical_time=2),
+        Event("a_write_config", EventType.WRITE, "node_a", {"key": "region_a_config", "val": "v1_alpha"}, logical_time=3),
+        Event("b_write_config", EventType.WRITE, "node_b", {"key": "region_b_config", "val": "v2_beta"}, logical_time=4),
+        Event("bg_log_health", EventType.INTERNAL, "logger", {"action": "checkpoint"}, logical_time=5),
+        Event("heal_partition", EventType.INTERNAL, "network", {"action": "partition_healed"}, logical_time=6),
+        Event(
+            "assert_cross_region_convergence",
+            EventType.ASSERTION,
+            "auditor",
+            {"name": "CrossRegionConfigConvergence", "expected": True, "actual": False, "signature": "PartitionHealingDesyncAnomaly"},
+            logical_time=7,
+            depends_on={"a_write_config", "b_write_config"},
+        ),
+    ]
+
+    trace = Trace(
+        events=events,
+        failure_event_id="assert_cross_region_convergence",
+        failure_signature="PartitionHealingDesyncAnomaly",
+        metadata={"description": "Healed network partition without conflict reconciliation leaves divergent state"},
+    )
+
+    oracle = FailureOracle(expected_signature="PartitionHealingDesyncAnomaly")
+    oracle.register_invariant(
+        "PartitionHealingDesyncAnomaly",
+        lambda state: not (
+            state.get("kv_store", {}).get("region_a_config") == "v1_alpha"
+            and state.get("kv_store", {}).get("region_b_config") == "v2_beta"
+            and "fault_isolate_ab" in state.get("executed_event_ids", set())
+        ),
+    )
+
+    scheduler = EventScheduler(initial_state={"kv_store": {}})
+    ground_truth = {"fault_isolate_ab", "a_write_config", "b_write_config", "assert_cross_region_convergence"}
+
+    return BenchmarkCase(
+        case_id="BM_B5",
+        category="Benchmark B",
+        name="PartitionHealingDesyncAnomaly",
+        description="Independent writes during partition survive healing without merge resolution",
+        trace=trace,
+        oracle=oracle,
+        scheduler=scheduler,
+        ground_truth_minimal_events=ground_truth,
+    )
+
+
+def create_asymmetric_partition_case() -> BenchmarkCase:
+    """
+    Case B6: Asymmetric network partition causes false failover.
+    Node A successfully pings Node B, but responses from Node B to Node A are dropped.
+    Node A times out and assumes Node B is dead, triggering spurious split leader promotion.
+    """
+    events = [
+        Event("bg_telem", EventType.INTERNAL, "monitor", {"action": "telemetry"}, logical_time=1),
+        Event("ping_send", EventType.SEND, "node_a", {"msg_id": "ping_99"}, target="node_b", logical_time=2),
+        Event("ping_recv", EventType.RECEIVE, "node_b", {"msg_id": "ping_99"}, logical_time=3),
+        Event("pong_send", EventType.SEND, "node_b", {"msg_id": "pong_99"}, target="node_a", logical_time=4),
+        Event("fault_drop_pong", EventType.FAULT_DROP, "network", {"msg_id": "pong_99"}, logical_time=5),
+        Event("a_timeout", EventType.INTERNAL, "node_a", {"action": "heartbeat_timeout"}, logical_time=6),
+        Event("a_promote_self", EventType.WRITE, "node_a", {"key": "node_a_leader", "val": True}, logical_time=7),
+        Event("b_still_serving", EventType.WRITE, "node_b", {"key": "node_b_leader", "val": True}, logical_time=8),
+        Event(
+            "assert_single_active_leader",
+            EventType.ASSERTION,
+            "auditor",
+            {"name": "NoSpuriousFailoverLeader", "expected": 1, "actual": 2, "signature": "AsymmetricPartitionFailoverAnomaly"},
+            logical_time=9,
+            depends_on={"a_promote_self", "b_still_serving"},
+        ),
+    ]
+
+    trace = Trace(
+        events=events,
+        failure_event_id="assert_single_active_leader",
+        failure_signature="AsymmetricPartitionFailoverAnomaly",
+        metadata={"description": "One-way packet drop triggers false dead-node detection and split brain"},
+    )
+
+    oracle = FailureOracle(expected_signature="AsymmetricPartitionFailoverAnomaly")
+    oracle.register_invariant(
+        "AsymmetricPartitionFailoverAnomaly",
+        lambda state: not (
+            state.get("kv_store", {}).get("node_a_leader") is True
+            and state.get("kv_store", {}).get("node_b_leader") is True
+            and "fault_drop_pong" in state.get("executed_event_ids", set())
+        ),
+    )
+
+    scheduler = EventScheduler(initial_state={"kv_store": {}})
+    ground_truth = {"fault_drop_pong", "a_promote_self", "b_still_serving", "assert_single_active_leader"}
+
+    return BenchmarkCase(
+        case_id="BM_B6",
+        category="Benchmark B",
+        name="AsymmetricPartitionFailoverAnomaly",
+        description="One-way dropped pong causes false dead-node detection and spurious failover",
+        trace=trace,
+        oracle=oracle,
+        scheduler=scheduler,
+        ground_truth_minimal_events=ground_truth,
+    )
+
+
 def get_benchmark_b_cases() -> List[BenchmarkCase]:
     """Retrieve all Benchmark B cases."""
     return [
@@ -252,4 +366,6 @@ def get_benchmark_b_cases() -> List[BenchmarkCase]:
         create_split_brain_partition_case(),
         create_dropped_ack_timeout_case(),
         create_crash_restart_state_loss_case(),
+        create_partition_healing_desync_case(),
+        create_asymmetric_partition_case(),
     ]

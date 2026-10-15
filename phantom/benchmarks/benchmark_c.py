@@ -215,10 +215,122 @@ def create_saga_compensate_race_case() -> BenchmarkCase:
     )
 
 
+def create_raft_log_truncation_case() -> BenchmarkCase:
+    """
+    Case C4: Raft log truncation and uncommitted entry divergence.
+    Old leader proposes entry at index 5 with Term 1, but is delayed by network fault.
+    New leader elected in Term 2 overwrites index 5.
+    Old leader resumes and observes state violation.
+    """
+    events = [
+        Event("bg_heartbeat", EventType.INTERNAL, "raft_monitor", {"action": "hb_tick"}, logical_time=1),
+        Event("n1_propose_idx5", EventType.WRITE, "node_1", {"key": "raft_idx_5", "val": "tx_term1"}, logical_time=2),
+        Event("fault_delay_n1", EventType.FAULT_DELAY, "node_1", {"duration": 8, "target_node": "node_1"}, logical_time=3),
+        Event("bg_raft_snap", EventType.INTERNAL, "node_2", {"action": "take_snapshot"}, logical_time=4),
+        Event("n2_elect_term2", EventType.WRITE, "node_2", {"key": "current_term", "val": 2}, logical_time=5),
+        Event("n2_overwrite_idx5", EventType.WRITE, "node_2", {"key": "raft_idx_5", "val": "tx_term2"}, logical_time=6),
+        Event("n1_resume", EventType.INTERNAL, "node_1", {"action": "wake_from_delay"}, logical_time=7),
+        Event(
+            "assert_raft_log_agreement",
+            EventType.ASSERTION,
+            "auditor",
+            {"name": "RaftLogAgreement", "expected": "tx_term2", "actual": "tx_term1", "signature": "RaftLogDivergenceAnomaly"},
+            logical_time=8,
+            depends_on={"n1_propose_idx5", "n2_overwrite_idx5"},
+        ),
+    ]
+
+    trace = Trace(
+        events=events,
+        failure_event_id="assert_raft_log_agreement",
+        failure_signature="RaftLogDivergenceAnomaly",
+        metadata={"description": "Delayed leader entry overwritten by new leader term election"},
+    )
+
+    oracle = FailureOracle(expected_signature="RaftLogDivergenceAnomaly")
+    oracle.register_invariant(
+        "RaftLogDivergenceAnomaly",
+        lambda state: not (
+            state.get("kv_store", {}).get("raft_idx_5") == "tx_term2"
+            and state.get("kv_store", {}).get("current_term") == 2
+            and "fault_delay_n1" in state.get("executed_event_ids", set())
+        ),
+    )
+
+    scheduler = EventScheduler(initial_state={"kv_store": {"current_term": 1}})
+    ground_truth = {"fault_delay_n1", "n2_elect_term2", "n2_overwrite_idx5", "assert_raft_log_agreement"}
+
+    return BenchmarkCase(
+        case_id="BM_C4",
+        category="Benchmark C",
+        name="RaftLogTruncationDivergence",
+        description="Term change truncates uncommitted log entries, inducing state divergence",
+        trace=trace,
+        oracle=oracle,
+        scheduler=scheduler,
+        ground_truth_minimal_events=ground_truth,
+    )
+
+
+def create_kafka_offset_rewind_case() -> BenchmarkCase:
+    """
+    Case C5: Message streaming crash before commit offset rewind.
+    Consumer processes message and charges card, but crashes before commit offset.
+    On restart, consumer rewinds and double-charges transaction.
+    """
+    events = [
+        Event("bg_poll_stream", EventType.INTERNAL, "kafka-broker", {"action": "poll"}, logical_time=1),
+        Event("consumer_read_msg", EventType.READ, "consumer_worker", {"key": "stream_offset", "val": 100}, logical_time=2),
+        Event("consumer_exec_charge", EventType.WRITE, "consumer_worker", {"key": "charge_count_msg101", "val": 1}, logical_time=3),
+        Event("fault_crash_consumer", EventType.FAULT_CRASH, "consumer_worker", {"target_node": "consumer_worker"}, logical_time=4),
+        Event("fault_restart_consumer", EventType.FAULT_RESTART, "consumer_worker", {"target_node": "consumer_worker"}, logical_time=5),
+        # Rewind to uncommitted offset 100
+        Event("consumer_rewind_read", EventType.READ, "consumer_worker", {"key": "stream_offset", "val": 100}, logical_time=6),
+        Event("consumer_re_execute", EventType.WRITE, "consumer_worker", {"key": "charge_count_msg101", "val": 2}, logical_time=7),
+        Event(
+            "assert_exactly_once",
+            EventType.ASSERTION,
+            "auditor",
+            {"name": "ExactlyOnceProcessing", "expected": 1, "actual": 2, "signature": "KafkaOffsetRewindDuplicateAnomaly"},
+            logical_time=8,
+            depends_on={"consumer_re_execute"},
+        ),
+    ]
+
+    trace = Trace(
+        events=events,
+        failure_event_id="assert_exactly_once",
+        failure_signature="KafkaOffsetRewindDuplicateAnomaly",
+        metadata={"description": "Consumer crash before offset commit causes rewind duplicate processing"},
+    )
+
+    oracle = FailureOracle(expected_signature="KafkaOffsetRewindDuplicateAnomaly")
+    oracle.register_invariant(
+        "KafkaOffsetRewindDuplicateAnomaly",
+        lambda state: state.get("kv_store", {}).get("charge_count_msg101", 0) <= 1,
+    )
+
+    scheduler = EventScheduler(initial_state={"kv_store": {"stream_offset": 100, "charge_count_msg101": 0}})
+    ground_truth = {"fault_crash_consumer", "consumer_re_execute", "assert_exactly_once"}
+
+    return BenchmarkCase(
+        case_id="BM_C5",
+        category="Benchmark C",
+        name="KafkaConsumerOffsetRewind",
+        description="Stream consumer crash before offset commit triggers rewind duplicate execution",
+        trace=trace,
+        oracle=oracle,
+        scheduler=scheduler,
+        ground_truth_minimal_events=ground_truth,
+    )
+
+
 def get_benchmark_c_cases() -> List[BenchmarkCase]:
     """Retrieve all Benchmark C cases."""
     return [
         create_two_phase_commit_desync_case(),
         create_distributed_lease_race_case(),
         create_saga_compensate_race_case(),
+        create_raft_log_truncation_case(),
+        create_kafka_offset_rewind_case(),
     ]
