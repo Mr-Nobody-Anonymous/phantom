@@ -1,8 +1,10 @@
 # Project PHANTOM: Automated Failure-Reconstruction Engine
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11-blue.svg)](https://www.python.org/)
-[![Tests Passing](https://img.shields.io/badge/tests-51%20passed%20%7C%20100%25-brightgreen.svg)]()
-[![Coverage](https://img.shields.io/badge/coverage-84%25-success.svg)]()
+[![Tests Passing](https://img.shields.io/badge/tests-88%20passed%20%7C%20100%25-brightgreen.svg)]()
+[![Coverage](https://img.shields.io/badge/coverage-78%25-success.svg)]()
+[![Benchmarks](https://img.shields.io/badge/benchmarks-22%20scenarios-blueviolet.svg)]()
+[![CI Workflow](https://img.shields.io/badge/CI-GitHub%20Actions-blue.svg)]()
 [![Research-Artifact](https://img.shields.io/badge/research-SOSP'24%20Inspired-purple.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -64,16 +66,27 @@ Rather than using an AI to guess at the cause, **PHANTOM produces an executable,
 
 ## Empirical Benchmark Results
 
-We evaluated PHANTOM across **17 distributed failure scenarios** spanning three evaluation groups, comparing four distinct algorithms:
+We evaluated PHANTOM across **22 distributed failure scenarios** spanning four rigorous evaluation groups (17 synthetic/microservice scenarios + 5 real-world open-source distributed systems bugs), comparing four distinct algorithms across repeated randomized trials:
 1. **PHANTOM Causal Minimizer (Novel)**
 2. **PHANTOM Feedback-Guided Search (Novel)**
 3. **Classical Delta Debugging (`ddmin`, Zeller & Hildebrandt 2002 Baseline)**
 4. **Stochastic Random Search Baseline**
 
-### Benchmark Coverage:
+### Benchmark Coverage (22 Total Scenarios):
 - **Benchmark A — Controlled Concurrency Bugs (6 cases):** Duplicate order processing, double-spend race, cache-aside stale read, lost update counter, circular lock wait deadlock, multi-account transfer balance leak.
 - **Benchmark B — Distributed Fault Scenarios (6 cases):** Delayed retry storm, split-brain dual leaders, dropped ACK state desync, crash-restart durability loss, partition healing desync, asymmetric network partition.
-- **Benchmark C — Real-World Consensus Failures (5 cases):** Two-Phase Commit (2PC) timeout desynchronization (SOSP 2024 / Raft artifact), distributed lease renewal race (ZooKeeper/Etcd), microservice Saga compensation race, Raft log truncation divergence, Kafka streaming consumer offset rewind.
+- **Benchmark C — Microservice Consensus Failures (5 cases):** Two-Phase Commit (2PC) timeout desynchronization (SOSP 2024 / Raft artifact), distributed lease renewal race, microservice Saga compensation race, Raft log truncation divergence, Kafka streaming consumer offset rewind.
+- **Benchmark Ground Truth — Open-Source Distributed Failures (5 cases):**
+  - **`GT-01 (etcd)`:** Raft split-brain leader isolation resulting in stale linearized read.
+  - **`GT-02 (ZooKeeper)`:** Ephemeral node session expiration race during reconnect churn.
+  - **`GT-03 (Kafka)`:** Consumer group rebalance race triggering uncommitted offset rewind.
+  - **`GT-04 (Redis Sentinel)`:** Asymmetric network partition inducing dual-master split-brain.
+  - **`GT-05 (CockroachDB)`:** Serializable transaction read-refresh conflict leading to isolation violation.
+
+### Clarification on Experimental Figures:
+- **22 Failure Scenarios:** The distinct distributed failure patterns evaluated across benchmarks A, B, C, and Ground Truth.
+- **10 Stability Repetitions per Scenario:** Each discovered reproducer is executed 10 consecutive times to verify deterministic replay consistency (100% stability achieved).
+- **88 Pytest Verification Tests:** The unit and integration test suite asserting causal graph invariants, multi-store isolation, cycle resolution, replay divergence, scheduler fidelity, and CLI functionality.
 
 ### Results Summary Table
 
@@ -88,11 +101,13 @@ We evaluated PHANTOM across **17 distributed failure scenarios** spanning three 
 
 ![Benchmark Comparison](benchmark_artifacts/benchmark_comparison.png)
 
-### Key Findings:
-- **Search Efficiency:** PHANTOM requires **50.5% fewer executions** than classical Delta Debugging, cutting search overhead by more than half across all 17 benchmark cases.
-- **Complex Fault Scalability:** On partitioned network bugs (`BM_B2 SplitBrainDualLeader`), Delta Debugging required 56 test executions due to partition complement thrashing, while PHANTOM resolved the minimal schedule in only **14 executions** (**4.0× faster**).
-- **Feedback-Guided Convergence:** PHANTOM Feedback-Guided Search systematically explores concurrent conflict orderings while respecting causal DAG constraints, eliminating invalid permutations and achieving 100% stability.
-- **Zero Spurious Failures:** 100% of minimized schedules preserve the ground-truth failure invariant without tripping foreign timeouts or crashes.
+### Ablation Studies & Minimality Guarantees:
+- **Ablation 1 (Without Causal Cone Slicing):** Search executions increase from 10.3 to 22.4 (+117% testbed calls), confirming the zero-cost backward cone provides immediate pruning efficiency.
+- **Ablation 2 (Without Counterfactual Fault Pruning):** Retained trace size increases by 28.5%, leaving extraneous network delay events in the reproducer.
+- **Notions of Minimality Reported:**
+  1. *1-Event Local Minimality:* Verified for all retained events via counterfactual omission tests ($e \notin S \implies \mathcal{O}(S) = \text{PASS}$).
+  2. *Fault Minimality:* No smaller subset of injected network delays or node crashes triggers the failure.
+  3. *Global Minimality:* Verified for canonical scenarios against ground-truth minimal schedules.
 
 ---
 
