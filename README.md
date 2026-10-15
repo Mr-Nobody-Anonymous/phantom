@@ -6,6 +6,8 @@
 [![Research-Artifact](https://img.shields.io/badge/research-SOSP'24%20Inspired-purple.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+`distributed-systems` · `causal-inference` · `chaos-engineering` · `concurrency` · `consensus` · `debugging` · `delta-debugging` · `distributed-tracing` · `failure-reconstruction` · `fault-injection` · `microservices` · `opentelemetry` · `partial-order-reduction` · `race-conditions` · `raft` · `reliability` · `reproducibility` · `root-cause-analysis` · `software-testing` · `trace-analysis`
+
 > **PHANTOM** is an automated failure-reconstruction and causal minimization engine that discovers why distributed software fails by learning the smallest set of event timings and injected faults needed to deterministically reproduce a distributed-system failure.
 
 ---
