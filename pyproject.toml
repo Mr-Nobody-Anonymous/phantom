@@ -19,7 +19,18 @@ keywords = [
     "fault-injection",
     "debugging",
     "concurrency",
-    "partial-order-reduction"
+    "partial-order-reduction",
+    "chaos-engineering",
+    "failure-reconstruction",
+    "root-cause-analysis",
+    "distributed-tracing",
+    "reproducibility",
+    "opentelemetry",
+    "consensus",
+    "raft",
+    "microservices",
+    "software-testing",
+    "reliability"
 ]
 dependencies = [
     "networkx>=3.0",
